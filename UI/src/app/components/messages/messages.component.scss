@@ -1,0 +1,43 @@
+section .mat-list .mat-list-avatar{
+  width: 25px;
+  height: 25px;
+}
+
+.mat-list-avatar {
+  margin: 0 5px;
+}
+
+.message-header {
+
+}
+
+.message-text {
+
+}
+
+.full-width {
+  width: 100%;
+}
+
+.conversation-history {
+height:calc(100% - 115px);
+max-height: calc(100% - 115px);
+overflow: scroll;
+}
+
+.conversation-input {
+  width: calc(100% - 25px);
+  margin-left:15px;
+  background-color: #fafafa;
+}
+
+.message-content-container {
+  display:flex;
+  flex-direction: column;
+}
+
+.message-container {
+  display:flex;
+  gap: 10px;
+  margin-top:10px;
+}

@@ -1,0 +1,6 @@
+<div mat-subheader>Users</div>
+<mat-list-option *ngFor="let user of users">
+  <mat-icon [ngClass]="{'green-icon': user.status === 0, 'red-icon' : user.status === 1 }" mat-list-icon>person</mat-icon>
+  <div mat-line>{{user.username}}</div>
+  <div mat-line> {{user.status | statusPipe}} </div>
+</mat-list-option>

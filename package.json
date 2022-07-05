@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@ngrx/router-store": "^13.0.2",
+    "@ngrx/store": "^13.0.2",
+    "ngx-cookie-service": "^13.1.2"
+  }
+}

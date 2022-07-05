@@ -1,0 +1,39 @@
+<mat-toolbar>
+  <button mat-icon-button (click)="drawer.toggle()" class="example-icon"
+    aria-label="Example icon-button with menu icon">
+    <mat-icon>menu</mat-icon>
+  </button><img src="assets/aws_icon.webp" style="width:40px;" />
+  <span>Serverless websocket chat</span>
+  <span class="example-spacer"></span>
+  <mat-icon matTooltip="Logout" (click)="logout()" class="logout">logout</mat-icon>
+</mat-toolbar>
+
+<mat-drawer-container class="container">
+  <mat-drawer #drawer class="example-sidenav" opened mode="side">
+
+    <mat-selection-list [(ngModel)]="channelSelections" #ch [multiple]="false">
+      <div mat-subheader>Conversations
+        <mat-icon (click)="openDialog()" matTooltip="Create channel" matSuffix style="margin-left:120px;">add</mat-icon>
+      </div>
+      <mat-list-option *ngFor="let channel of channels" [value]="channel">
+        <mat-icon mat-list-icon>forum</mat-icon>
+        <div mat-line>#{{channel.id}}</div>
+        <!-- <div mat-line>X members</div> -->
+      </mat-list-option>
+      <mat-divider></mat-divider>
+      <app-users></app-users>
+    </mat-selection-list>
+
+  </mat-drawer>
+
+<section *ngIf="selectedChannel === undefined" class="empty-placeholder">
+  <mat-toolbar>
+    <mat-icon>arrow_back</mat-icon> <span style="font-weight:100;">Open a conversation from the list, or create a new one!</span>
+  </mat-toolbar>
+  
+</section>
+
+  <div *ngIf="selectedChannel !== undefined" class="mat-typography conversation-header" mat-subheader>#{{selectedChannel.id}}</div>
+  <mat-divider *ngIf="selectedChannel !== undefined"></mat-divider>
+  <app-messages *ngIf="selectedChannel !== undefined" #messages [Channel]="selectedChannel"></app-messages>
+</mat-drawer-container>

@@ -1,0 +1,6 @@
+{
+    "production": false,
+    "api_url": "https://dqoapl8cag02b.cloudfront.net/api",
+    "broadcast_url": "wss://o6rpe3uu65.execute-api.eu-west-2.amazonaws.com/dev",
+    "login_url": "https://serverless-chat-users.auth.eu-west-2.amazoncognito.com/login?client_id=3vquj4gibge9v4ufjrp6m596io&response_type=token&redirect_uri=http://localhost:4200/callback"
+  }

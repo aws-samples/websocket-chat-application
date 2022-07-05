@@ -1,0 +1,23 @@
+<mat-list dense class="conversation-history mat-typography">
+  <mat-list-item *ngFor="let message of messages; let i = index">
+    <div class="message-container">
+
+      <div class="message-content-container">
+        <div class="message-header">
+          <b>{{message.sender}}</b> - {{message.sentAt | date:'h:mm:ss a'}}
+        </div>
+        <div class="message-text">
+          <p class="text-center">{{message.text}}</p>
+        </div>
+      </div>
+    </div>
+  </mat-list-item>
+</mat-list>
+
+<div class="conversation-input">
+  <mat-form-field class="full-width">
+    <input matInput (keyup.enter)="sendMessage(messageBox.value)" placeholder="Start typing..." [(ngModel)]="messageText" #messageBox name="text">
+    <mat-icon matSuffix (click)="sendMessage(messageBox.value)">send</mat-icon>
+  </mat-form-field>
+</div>
+
