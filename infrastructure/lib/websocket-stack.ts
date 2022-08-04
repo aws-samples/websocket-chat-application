@@ -80,6 +80,12 @@ export class WebsocketStack extends Stack {
         externalModules: [
           'aws-sdk', // Use the 'aws-sdk' available in the Lambda runtime
         ],
+        nodeModules: [
+          '@aws-lambda-powertools/logger', 
+          '@aws-lambda-powertools/tracer',
+          'aws-jwt-verify',
+          '@aws-lambda-powertools/metrics'
+        ],
       },
       depsLockFilePath: join(__dirname, '../resources/', 'package-lock.json'),
       environment: {
