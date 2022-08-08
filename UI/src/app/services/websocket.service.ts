@@ -3,7 +3,6 @@
 
 import { Injectable } from '@angular/core';
 import { Subscriber, Observable, Subject } from 'rxjs';
-import { WebsocketAuthEvent } from '../../../../infrastructure/resources/models/websocket-auth-event';
 import ReconnectingWebSocket from '../utils/reconnecting-websocket';
 import { AuthService } from './auth.service';
 
