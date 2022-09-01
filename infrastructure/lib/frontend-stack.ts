@@ -189,7 +189,7 @@ export class FrontendStack extends Stack {
     // Generate a cognito app client with a returnURL pointing to the Cloudfront distribution url
     const domain = userPool.addDomain('Domain', {
       cognitoDomain: {
-        domainPrefix: "serverless-chat-users" // TODO: extract to stack parameter
+        domainPrefix: "new-serverless-chat-users" // TODO: extract to stack parameter
       }
     });
 
