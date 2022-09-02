@@ -19,7 +19,8 @@ import { AnyPrincipal, Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
 export interface FrontendProps extends StackProps {
   restApi: RestApi;
   websocketApi: WebSocketApi;
-  cognitoUserPoolId: string
+  cognitoUserPoolId: string;
+  cognitoDomainPrefix: string;
 }
 
 export class FrontendStack extends Stack {
@@ -189,7 +190,7 @@ export class FrontendStack extends Stack {
     // Generate a cognito app client with a returnURL pointing to the Cloudfront distribution url
     const domain = userPool.addDomain('Domain', {
       cognitoDomain: {
-        domainPrefix: "new-serverless-chat-users" // TODO: extract to stack parameter
+        domainPrefix: props?.cognitoDomainPrefix!
       }
     });
 
