@@ -88,6 +88,10 @@ Below you can find a list of security recommendations in case you would like to 
 ```bash
     cd UI
 ```
+- Restore NPM packages for the project
+```bash
+    npm install
+```
 - Build the frontend application
 ```bash
     ng build --prod

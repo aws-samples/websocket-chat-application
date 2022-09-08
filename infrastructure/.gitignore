@@ -1,9 +1,10 @@
-/node_modules
-lib/*.js
-lib/*.d.ts
-bin/*.js
-bin/*.d.ts
+*.js
+!jest.config.js
+*.d.ts
+node_modules
 
 ./resources/coverage/*
 
+# CDK asset staging directory
+.cdk.staging
 cdk.out
