@@ -164,7 +164,7 @@ export class FrontendStack extends Stack {
     });
 
     // Upload the pre-compiled frontend static files
-    new BucketDeployment(this, 'DeployApp-${new Date().toString()}', {
+    new BucketDeployment(this, `DeployApp-${new Date().toISOString()}`, {
       sources: [Source.asset("../UI/dist/websocket-chat")],
       destinationBucket: siteBucket,
       distribution: distribution,
