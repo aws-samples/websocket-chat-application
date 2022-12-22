@@ -22,7 +22,7 @@ export class AuthenticationStack extends Stack {
     const autoVerifyFunction = new Function(this, 'lambda-function', {
       runtime: Runtime.NODEJS_16_X,
       memorySize: 128,
-      timeout: Duration.seconds(5),
+      timeout: Duration.seconds(10),
       handler: 'index.handler',
       code: Code.fromInline(`exports.handler = (event, context, callback) => {
         // Autoconfirm user
