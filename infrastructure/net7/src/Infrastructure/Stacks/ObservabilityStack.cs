@@ -1,9 +1,8 @@
 using Amazon.CDK;
 using Amazon.CDK.AWS.CloudWatch;
-using Amazon.CDK.AWS.DynamoDB;
 using Constructs;
 
-namespace Infrastructure
+namespace Infrastructure.Stacks
 {
     public class ObservabilityStack : Stack
     {

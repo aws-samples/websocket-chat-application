@@ -2,7 +2,7 @@ using Amazon.CDK;
 using Amazon.CDK.AWS.DynamoDB;
 using Constructs;
 
-namespace Infrastructure
+namespace Infrastructure.Stacks
 {
     public class DatabaseStack : Stack
     {

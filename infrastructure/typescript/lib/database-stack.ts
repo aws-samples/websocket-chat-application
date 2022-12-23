@@ -17,7 +17,7 @@ export class DatabaseStack extends Stack {
     this.connectionsTable = new Table(this, 'Connections', {
       partitionKey: { name: 'connectionId', type: AttributeType.STRING },
       billingMode: BillingMode.PAY_PER_REQUEST,
-      removalPolicy: RemovalPolicy.DESTROY, // NOT recommended for production code
+      removalPolicy: RemovalPolicy.DESTROY, // NOT recommended for production use
       encryption: TableEncryption.AWS_MANAGED,
       pointInTimeRecovery: false // set to "true" to enable PITR
     });
@@ -29,7 +29,7 @@ export class DatabaseStack extends Stack {
       },
       billingMode: BillingMode.PAY_PER_REQUEST,
       tableName: 'serverless-chat-channels',
-      removalPolicy: RemovalPolicy.DESTROY, // NOT recommended for production code
+      removalPolicy: RemovalPolicy.DESTROY, // NOT recommended for production use
       encryption: TableEncryption.AWS_MANAGED,
       pointInTimeRecovery: false // set to "true" to enable PITR
     });
@@ -45,7 +45,7 @@ export class DatabaseStack extends Stack {
       },
       billingMode: BillingMode.PAY_PER_REQUEST,
       tableName: 'serverless-chat-messages',
-      removalPolicy: RemovalPolicy.DESTROY, // NOT recommended for production code
+      removalPolicy: RemovalPolicy.DESTROY, // NOT recommended for production use
       encryption: TableEncryption.AWS_MANAGED,
       pointInTimeRecovery: false // set to "true" to enable PITR
     });

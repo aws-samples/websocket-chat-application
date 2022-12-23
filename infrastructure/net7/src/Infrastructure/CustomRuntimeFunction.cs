@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Amazon.CDK;
 using Amazon.CDK.AWS.Lambda;
 using Amazon.JSII.Runtime.Deputy;
@@ -17,7 +18,7 @@ namespace Infrastructure
             "cp -r /asset-input/bin/Release/net7.0/linux-x64/publish/bootstrap /asset-output"
         };
 
-        public CustomRuntimeFunction(Construct scope, string id, string assetSourcePath, string handler) : base(scope, id, CreateFunctionProps(assetSourcePath, handler))
+        public CustomRuntimeFunction(Construct scope, string id, string assetSourcePath, string handler, IDictionary<string, string> env) : base(scope, id, CreateFunctionProps(assetSourcePath, handler, env))
         {
         }
 
@@ -35,7 +36,7 @@ namespace Infrastructure
         }
         #endregion
 
-        static FunctionProps CreateFunctionProps(string assetSourcePath, string handler)
+        static FunctionProps CreateFunctionProps(string assetSourcePath, string handler, IDictionary<string, string> env)
         {
             return new FunctionProps
             {
@@ -51,6 +52,7 @@ namespace Infrastructure
                         }
                     }
                 }),
+                Environment = env,
                 Handler = handler,
                 Tracing = Tracing.ACTIVE,
                 Architecture = Architecture.X86_64,

@@ -34,8 +34,8 @@ export class FrontendStack extends Stack {
       publicReadAccess: false,
       encryption: s3.BucketEncryption.S3_MANAGED,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      removalPolicy: RemovalPolicy.DESTROY, // NOT recommended for production code
-      autoDeleteObjects: true, // NOT recommended for production code
+      removalPolicy: RemovalPolicy.DESTROY, // NOT recommended for production use
+      autoDeleteObjects: true, // NOT recommended for production use
     });
     siteBucket.addToResourcePolicy(new PolicyStatement({
       effect: Effect.DENY,
@@ -57,8 +57,8 @@ export class FrontendStack extends Stack {
     //   publicReadAccess: false,
     //   encryption: s3.BucketEncryption.S3_MANAGED,
     //   blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-    //   removalPolicy: RemovalPolicy.DESTROY, // NOT recommended for production code
-    //   autoDeleteObjects: true, // NOT recommended for production code
+    //   removalPolicy: RemovalPolicy.DESTROY, // NOT recommended for production use
+    //   autoDeleteObjects: true, // NOT recommended for production use
     // });
     // logBucket.addToResourcePolicy(new PolicyStatement({
     //   effect: Effect.DENY,

@@ -12,7 +12,7 @@ using Amazon.CDK.AWS.S3.Deployment;
 using Amazon.CDK.AWS.SSM;
 using Constructs;
 
-namespace Infrastructure
+namespace Infrastructure.Stacks
 {
     public class FrontendStackProps : IStackProps
     {
@@ -117,7 +117,7 @@ namespace Infrastructure
             
             // REST API behaviour matched to "api/*" path
             distribution.AddBehavior("api/*", 
-                new HttpOrigin($"{props?.RestApi.RestApiId}.execute-api.${Stack.Of(this).Region}.amazonaws.com", new HttpOriginProps()
+                new HttpOrigin($"{props?.RestApi.RestApiId}.execute-api.{Stack.Of(this).Region}.amazonaws.com", new HttpOriginProps()
                 {
                     OriginPath = $"/{props?.RestApi.DeploymentStage.StageName}"
                 }), 
@@ -140,7 +140,7 @@ namespace Infrastructure
             
             // Websocket API behaviour matched to "wss/*" path
             distribution.AddBehavior("wss/*", 
-                new HttpOrigin($"{props?.WebsocketApi.ApiId}.execute-api.${Stack.Of(this).Region}.amazonaws.com", new HttpOriginProps()
+                new HttpOrigin($"{props?.WebsocketApi.ApiId}.execute-api.{Stack.Of(this).Region}.amazonaws.com", new HttpOriginProps()
                 {
                     OriginPath = $"/"
                 }), 

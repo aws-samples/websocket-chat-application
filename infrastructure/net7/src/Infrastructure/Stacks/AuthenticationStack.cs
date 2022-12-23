@@ -3,7 +3,7 @@ using Amazon.CDK.AWS.Cognito;
 using Amazon.CDK.AWS.Lambda;
 using Constructs;
 
-namespace Infrastructure
+namespace Infrastructure.Stacks
 {
     public class AuthenticationStack : Stack
     {

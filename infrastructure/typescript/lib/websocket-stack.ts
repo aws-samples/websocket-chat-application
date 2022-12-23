@@ -138,13 +138,13 @@ export class WebsocketStack extends Stack {
       defaultRouteOptions: { integration: new WebSocketLambdaIntegration("DefaultIntegration", onMessageHandler) },
     });
 
-    const devStage = new WebSocketStage(this, 'Prod', {
+    const prodStage = new WebSocketStage(this, 'Prod', {
       webSocketApi: this.webSocketApi,
       stageName: 'wss',
       autoDeploy: true,
     });
 
-    nodeJsFunctionProps.environment!["APIGW_ENDPOINT"] = devStage.url.replace('wss://', '');
+    nodeJsFunctionProps.environment!["APIGW_ENDPOINT"] = prodStage.url.replace('wss://', '');
 
     const userStatusBroadcastHandler = new NodejsFunction(this, "userStatusBroadcastHandler", {
       entry: path.join(__dirname, `/../resources/handlers/websocket/status-broadcast.ts`),
