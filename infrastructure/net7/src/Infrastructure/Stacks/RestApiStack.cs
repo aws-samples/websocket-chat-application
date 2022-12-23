@@ -6,6 +6,7 @@ using Amazon.CDK.AWS.Cognito;
 using Amazon.CDK.AWS.DynamoDB;
 using Amazon.CDK.AWS.IAM;
 using Constructs;
+using Microsoft.Extensions.Logging;
 using IResource = Amazon.CDK.AWS.APIGateway.IResource;
 
 namespace Infrastructure.Stacks
@@ -43,7 +44,7 @@ namespace Infrastructure.Stacks
                 {"CHANNELS_TABLE_NAME", props?.ChannelsTable.TableName},
                 {"COGNITO_USER_POOL_ID", props?.CognitoUserPoolId},
                 {"WEBSOCKET_API_URL", $"{props?.WebSocketApi.ApiEndpoint!}/wss"},
-                {"LOG_LEVEL", props?.LogLevel.ToString()}
+                {"POWERTOOLS_LOG_LEVEL", props?.LogLevel.ToString()}
             };
             
             var getUsersHandler = new CustomRuntimeFunction(this, "GetUsersHandler",

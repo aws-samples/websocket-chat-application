@@ -14,14 +14,14 @@ using AWS.Lambda.Powertools.Tracing;
 using Shared;
 using Shared.Models;
 
-namespace OnConnect;
+namespace OnDisconnect;
 
 public class Function
 {
     public static string? StatusQueueUrl => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.StatusQueueUrl);
     public static string? ConnectionsTableName => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.ConnectionsTableName);
 
-    private static IDynamoDBContext? _dynamoDbContext;
+    private static DynamoDBContext _dynamoDbContext;
     private static AmazonSQSClient _sqsClient = new();
     static Function()
     {
@@ -66,27 +66,25 @@ public class Function
 
         Logger.LogInformation("Lambda has been invoked successfully.");
         
-        var authenticatedCustomerId = apigProxyEvent.RequestContext.Authorizer?.Claims["customerId"];
         var connectionId = apigProxyEvent.RequestContext.ConnectionId;
 
-        // Prepare Connection object for insert
-        var connection = new Connection(connectionId, authenticatedCustomerId);
-
-        // Prepare status change event for broadcast
-        var statusChangeEvent = new StatusChangeEvent(authenticatedCustomerId!, Status.ONLINE, DateTime.Now);
-        var statusChangeEventJson = JsonSerializer.Serialize(statusChangeEvent);
-        
         try
         {
-            await SaveRecordInDynamo(connection);
-            Metrics.AddMetric("newConnection", 1, MetricUnit.Count);
+            // Get Connection item from DynamoDB to retrieve the userId
+            var connectionItem = await _dynamoDbContext.LoadAsync<Connection>(connectionId);
+            Logger.LogInformation($"Retrieved Connection Item: {connectionItem}");
 
-            Logger.LogInformation($"Putting status changed event in the SQS queue...");
-            Logger.LogInformation(statusChangeEvent);
-            
+            // Prepare status change event for broadcast
+            var statusChangeEvent = new StatusChangeEvent(connectionItem.userId!, Status.OFFLINE, DateTime.Now);
+            var statusChangeEventJson = JsonSerializer.Serialize(statusChangeEvent);
+            Logger.LogInformation($"Putting status changed event in the SQS queue: {statusChangeEvent}");
             var sqsResults = await _sqsClient.SendMessageAsync(StatusQueueUrl, statusChangeEventJson);
-            Logger.LogInformation("SQS Queue send result:");
-            Logger.LogInformation(sqsResults);
+            Logger.LogInformation($"SQS Queue send result: {sqsResults}");
+
+            Logger.LogInformation($"Deleting record with id {connectionItem}");
+            await _dynamoDbContext?.DeleteAsync(connectionItem)!;
+
+            Metrics.AddMetric("closedConnection", 1, MetricUnit.Count);
             
             return response;
         }
@@ -100,26 +98,6 @@ public class Function
                 StatusCode = 500,
                 Headers = new Dictionary<string, string> { { "Content-Type", "application/json" } }
             };
-        }
-    }
-    
-    /// <summary>
-    /// Saves the connection record in DynamoDB
-    /// </summary>
-    /// <param name="connection">Instance of Connection</param>
-    /// <returns>A Task that can be used to poll or wait for results, or both.</returns>
-    [Tracing(SegmentName = "DynamoDB")]
-    private static async Task SaveRecordInDynamo(Connection connection)
-    {
-        try
-        {
-            Logger.LogInformation($"Saving record with id {connection}");
-            await _dynamoDbContext?.SaveAsync(connection)!;
-        }
-        catch (AmazonDynamoDBException e)
-        {
-            Logger.LogCritical(e.Message);
-            throw;
         }
     }
 }

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnConnect", "OnConnect\src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{03F9394B-09AB-4099-B8D8-7942666F365B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnDisconnect", "OnDisconnect\src\OnDisconnect\OnDisconnect.csproj", "{57362AB2-1819-4B51-AD91-5EAC484A0810}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,5 +60,17 @@ Global
 		{03F9394B-09AB-4099-B8D8-7942666F365B}.Release|x64.Build.0 = Release|Any CPU
 		{03F9394B-09AB-4099-B8D8-7942666F365B}.Release|x86.ActiveCfg = Release|Any CPU
 		{03F9394B-09AB-4099-B8D8-7942666F365B}.Release|x86.Build.0 = Release|Any CPU
+		{57362AB2-1819-4B51-AD91-5EAC484A0810}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57362AB2-1819-4B51-AD91-5EAC484A0810}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57362AB2-1819-4B51-AD91-5EAC484A0810}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{57362AB2-1819-4B51-AD91-5EAC484A0810}.Debug|x64.Build.0 = Debug|Any CPU
+		{57362AB2-1819-4B51-AD91-5EAC484A0810}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{57362AB2-1819-4B51-AD91-5EAC484A0810}.Debug|x86.Build.0 = Debug|Any CPU
+		{57362AB2-1819-4B51-AD91-5EAC484A0810}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57362AB2-1819-4B51-AD91-5EAC484A0810}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57362AB2-1819-4B51-AD91-5EAC484A0810}.Release|x64.ActiveCfg = Release|Any CPU
+		{57362AB2-1819-4B51-AD91-5EAC484A0810}.Release|x64.Build.0 = Release|Any CPU
+		{57362AB2-1819-4B51-AD91-5EAC484A0810}.Release|x86.ActiveCfg = Release|Any CPU
+		{57362AB2-1819-4B51-AD91-5EAC484A0810}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -8,6 +8,7 @@ using Amazon.CDK.AWS.IAM;
 using Amazon.CDK.AWS.Lambda.EventSources;
 using Amazon.CDK.AWS.SQS;
 using Constructs;
+using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Stacks
 {
@@ -63,7 +64,7 @@ namespace Infrastructure.Stacks
                 {"CHANNELS_TABLE_NAME", props?.ChannelsTable.TableName},
                 {"STATUS_QUEUE_URL", statusQueue.QueueUrl},
                 {"COGNITO_USER_POOL_ID", props?.CognitoUserPoolId!},
-                {"LOG_LEVEL", props?.LogLevel.ToString()}
+                {"POWERTOOLS_LOG_LEVEL", props?.LogLevel.ToString()}
             };
 
             #region Lambda handlers

@@ -1,21 +1,14 @@
 ﻿using Amazon.CDK;
 using Infrastructure.Stacks;
+using Microsoft.Extensions.Logging;
 
 namespace Infrastructure
 {
-    public enum LogLevel
-    {
-        DEBUG,
-        INFO,
-        WARN,
-        ERROR
-    }
-    
     sealed class Program
     {
         public static void Main(string[] args)
         {
-            var defaultLogLevel = LogLevel.ERROR;
+            var defaultLogLevel = LogLevel.Error;
             var app = new App();
             
             var authStack = new AuthenticationStack(app, "AuthenticationStack", new StackProps{ });

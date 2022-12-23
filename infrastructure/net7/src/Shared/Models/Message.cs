@@ -6,9 +6,9 @@ public class Message : Payload
     {
     }
 
-    public string sender { get; set; }
-    public string text { get; set; }
-    public DateTime sentAt { get; set; }
-    public string channelId { get; set; }
-    public string messageId { get; set; }
+    public string? sender { get; set; }
+    public string? text { get; set; }
+    public DateTime? sentAt { get; set; }
+    public string? channelId { get; set; }
+    public string? messageId { get; set; }
 }
