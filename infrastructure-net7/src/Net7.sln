@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnDisconnect", "OnDisconnect\src\OnDisconnect\OnDisconnect.csproj", "{57362AB2-1819-4B51-AD91-5EAC484A0810}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnMessage", "OnMessage\src\OnMessage\OnMessage.csproj", "{4C68E9FF-A433-459E-BC52-DFAEB0F2CDA9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,5 +74,17 @@ Global
 		{57362AB2-1819-4B51-AD91-5EAC484A0810}.Release|x64.Build.0 = Release|Any CPU
 		{57362AB2-1819-4B51-AD91-5EAC484A0810}.Release|x86.ActiveCfg = Release|Any CPU
 		{57362AB2-1819-4B51-AD91-5EAC484A0810}.Release|x86.Build.0 = Release|Any CPU
+		{4C68E9FF-A433-459E-BC52-DFAEB0F2CDA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C68E9FF-A433-459E-BC52-DFAEB0F2CDA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C68E9FF-A433-459E-BC52-DFAEB0F2CDA9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4C68E9FF-A433-459E-BC52-DFAEB0F2CDA9}.Debug|x64.Build.0 = Debug|Any CPU
+		{4C68E9FF-A433-459E-BC52-DFAEB0F2CDA9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4C68E9FF-A433-459E-BC52-DFAEB0F2CDA9}.Debug|x86.Build.0 = Debug|Any CPU
+		{4C68E9FF-A433-459E-BC52-DFAEB0F2CDA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C68E9FF-A433-459E-BC52-DFAEB0F2CDA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C68E9FF-A433-459E-BC52-DFAEB0F2CDA9}.Release|x64.ActiveCfg = Release|Any CPU
+		{4C68E9FF-A433-459E-BC52-DFAEB0F2CDA9}.Release|x64.Build.0 = Release|Any CPU
+		{4C68E9FF-A433-459E-BC52-DFAEB0F2CDA9}.Release|x86.ActiveCfg = Release|Any CPU
+		{4C68E9FF-A433-459E-BC52-DFAEB0F2CDA9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
