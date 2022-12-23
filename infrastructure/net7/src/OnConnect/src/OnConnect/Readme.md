@@ -41,13 +41,13 @@ If already installed check if new version is available.
 
 Execute unit tests
 ```
-    cd "SampleLambda/test/SampleLambda.Tests"
+    cd "OnConnect/test/OnConnect.Tests"
     dotnet test
 ```
 
 Deploy function to AWS Lambda
 ```
-    cd "SampleLambda/src/SampleLambda"
+    cd "OnConnect/src/OnConnect"
     dotnet lambda deploy-function
 ```
 

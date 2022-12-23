@@ -3,7 +3,7 @@ using Amazon.Lambda.Core;
 using Amazon.Lambda.TestUtilities;
 
 
-namespace SampleLambda.Tests;
+namespace OnConnect.Tests;
 
 public class FunctionTest
 {
