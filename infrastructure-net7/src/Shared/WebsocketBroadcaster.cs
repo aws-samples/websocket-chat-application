@@ -19,29 +19,38 @@ public class WebsocketBroadcaster
     {
         this._dbContext = dbContext;
     }
-    
+
     [Logging(LogEvent = true, Service = "websocketMessagingService")]
     [Metrics(Namespace = "websocket-chat")]
     [Tracing(CaptureMode = TracingCaptureMode.ResponseAndError, Namespace = "websocket-chat")]
-    public async Task Broadcast(Message message, string apiGatewayEndpoint)
+    public async Task Broadcast(Payload payload, string apiGatewayEndpoint)
     {
         Logger.LogInformation("[Broadcaster] - Retrieving active connections...");
         var connectionData = await _dbContext.ScanAsync<Connection>(Array.Empty<ScanCondition>()).GetRemainingAsync();
-        var apiClient = new AmazonApiGatewayManagementApiClient(new AmazonApiGatewayManagementApiConfig {
+        var apiClient = new AmazonApiGatewayManagementApiClient(new AmazonApiGatewayManagementApiConfig
+        {
             ServiceURL = apiGatewayEndpoint
         });
 
-        var stream = new MemoryStream(UTF8Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message)));
-        foreach(var item in connectionData) {
-            var postConnectionRequest = new PostToConnectionRequest {
+        var messageBinary = UTF8Encoding.UTF8.GetBytes(JsonSerializer.Serialize(payload));
+
+        // Broadcast message parallel with concurrency limit to avoid API throttling
+        var options = new ParallelOptions { MaxDegreeOfParallelism = 5 };
+        await Parallel.ForEachAsync(connectionData, options, async (item, token) =>
+        {
+            var stream = new MemoryStream(messageBinary);
+            var postConnectionRequest = new PostToConnectionRequest
+            {
                 ConnectionId = item.connectionId,
                 Data = stream
             };
-            try {
+            try
+            {
                 Logger.LogInformation($"Broadcast to connection: {item.connectionId}");
-                stream.Position = 0;
                 await apiClient.PostToConnectionAsync(postConnectionRequest);
-            } catch (AmazonServiceException e) {
+            }
+            catch (AmazonServiceException e)
+            {
                 // API Gateway returns a status of 410 GONE when the connection is no
                 // longer available. If this happens, we simply delete the identifier
                 // from our DynamoDB table.
@@ -49,13 +58,13 @@ public class WebsocketBroadcaster
                 {
                     Logger.LogInformation($"Deleting stale connection: {item.connectionId}");
                     await _dbContext.DeleteAsync(item);
-                } 
-                else 
+                }
+                else
                 {
                     Logger.LogError($"Error posting message to {item.connectionId}: {e.Message}");
                     Logger.LogCritical(e.StackTrace);
                 }
             }
-        }
+        });
     }
 }

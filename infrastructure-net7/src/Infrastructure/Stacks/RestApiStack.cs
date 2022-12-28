@@ -123,7 +123,6 @@ namespace Infrastructure.Stacks
                 }
             );
             
-            //TODO authMethodOptions
             var authMethodOptions = new MethodOptions()
             {
                 Authorizer = auth,
