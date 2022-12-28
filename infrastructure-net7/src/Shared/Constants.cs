@@ -16,5 +16,7 @@ public static class Constants
     public static class SSMParameters
     {
         public static string CognitoClientId = "/prod/cognito/clientid";
+        public static string CognitoSigninUrl = "/prod/cognito/signinurl";
+        public static string WebsocketApiUrl = "/prod/websocket/url";
     }
 }

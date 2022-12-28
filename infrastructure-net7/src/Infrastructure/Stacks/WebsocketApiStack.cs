@@ -69,25 +69,25 @@ namespace Infrastructure.Stacks
 
             #region Lambda handlers
             var authorizerHandler = new CustomRuntimeFunction(this, "AuthorizerHandler",
-                "./src/AuthorizerHandler/src/AuthorizerHandler", 
-                "bootstrap::AuthorizerHandler.Function::FunctionHandler", defaultLambdaEnvironment);
+                "./src/WebsocketAuthorizer/src/WebsocketAuthorizer", 
+                "bootstrap::WebsocketAuthorizer.Function::FunctionHandler", defaultLambdaEnvironment);
             authorizerHandler.AddToRolePolicy(ssmPolicyStatement);
             
             var onConnectHandler = new CustomRuntimeFunction(this, "OnConnectHandler",
-                "./src/OnConnectHandler/src/OnConnectHandler", 
-                "bootstrap::OnConnectHandler.Function::FunctionHandler", defaultLambdaEnvironment);
+                "./src/OnConnect/src/OnConnect", 
+                "bootstrap::OnConnect.Function::FunctionHandler", defaultLambdaEnvironment);
             props?.ConnectionsTable.GrantReadWriteData(onConnectHandler);
             statusQueue.GrantSendMessages(onConnectHandler);
 
             var onDisconnectHandler = new CustomRuntimeFunction(this, "OnDisconnectHandler",
-                "./src/OnDisconnectHandler/src/OnDisconnectHandler", 
-                "bootstrap::OnDisconnectHandler.Function::FunctionHandler", defaultLambdaEnvironment);
+                "./src/OnConnect/src/OnConnect", 
+                "bootstrap::OnConnect.Function::FunctionHandler", defaultLambdaEnvironment);
             props?.ConnectionsTable.GrantReadWriteData(onDisconnectHandler);
             statusQueue.GrantSendMessages(onDisconnectHandler);
             
             var onMessageHandler = new CustomRuntimeFunction(this, "OnMessageHandler",
-                "./src/OnMessageHandler/src/OnMessageHandler", 
-                "bootstrap::OnMessageHandler.Function::FunctionHandler", defaultLambdaEnvironment);
+                "./src/OnMessage/src/OnMessage", 
+                "bootstrap::OnMessage.Function::FunctionHandler", defaultLambdaEnvironment);
             onMessageHandler.AddToRolePolicy(ssmPolicyStatement);
             props?.ConnectionsTable.GrantReadWriteData(onMessageHandler);
             props?.MessagesTable.GrantReadWriteData(onMessageHandler);
@@ -126,8 +126,8 @@ namespace Infrastructure.Stacks
             
             defaultLambdaEnvironment.Add("APIGW_ENDPOINT", prodStage.Url.Replace("wss://", ""));
             var userStatusBroadcastHandler = new CustomRuntimeFunction(this, "UserStatusBroadcastHandler",
-                "./src/UserStatusBroadcastHandler/src/UserStatusBroadcastHandler", 
-                "bootstrap::UserStatusBroadcastHandler.Function::FunctionHandler", defaultLambdaEnvironment);
+                "./src/StatusBroadcast/src/StatusBroadcast", 
+                "bootstrap::StatusBroadcast.Function::FunctionHandler", defaultLambdaEnvironment);
             userStatusBroadcastHandler.AddEventSource(new SqsEventSource(statusQueue, new SqsEventSourceProps()
             {
                 BatchSize = 10, //default

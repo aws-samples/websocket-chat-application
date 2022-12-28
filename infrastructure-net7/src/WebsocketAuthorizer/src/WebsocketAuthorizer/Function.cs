@@ -18,6 +18,7 @@ public class Function
     public static string? Region => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.AwsRegion);
     
     private static readonly AmazonSimpleSystemsManagementClient _ssmClient;
+    private static string? _cognitoClientId;
     static Function()
     {
         AWSSDKHandler.RegisterXRayForAllServices();
@@ -58,17 +59,20 @@ public class Function
 
         try
         {
-            var ssmRequest = new GetParameterRequest()
+            // Retrieve and cache SSM Parameter value on first call to avoid repeated API requests
+            if (_cognitoClientId == null)
             {
-                Name = Constants.SSMParameters.CognitoClientId,
-                WithDecryption = true
-            };
-            var cognitoClientIdParameter = await _ssmClient.GetParameterAsync(ssmRequest);
-            Logger.LogInformation($"Retrieved Cognito client id parameter value: {cognitoClientIdParameter}");
-
-            //TODO: cache it in a static variable, only retrieve on first call
-            var cognitoVerifier =
-                new CognitoJwtVerifier(CognitoUserPoolId!, cognitoClientIdParameter.Parameter.Value, Region!);
+                var ssmRequest = new GetParameterRequest()
+                {
+                    Name = Constants.SSMParameters.CognitoClientId,
+                    WithDecryption = true
+                };
+                var getParameterResponse = await _ssmClient.GetParameterAsync(ssmRequest);
+                _cognitoClientId = getParameterResponse.Parameter.Value;
+                Logger.LogInformation($"Retrieved Cognito client id parameter value: {_cognitoClientId}");
+            }
+            
+            var cognitoVerifier = new CognitoJwtVerifier(CognitoUserPoolId!, _cognitoClientId, Region!);
             
             var verifiedToken = cognitoVerifier.VerifyToken(token);
             if (verifiedToken != null)

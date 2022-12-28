@@ -1,7 +1,4 @@
 using System.IdentityModel.Tokens.Jwt;
-using System.Net;
-using System.Net.Http.Json;
-using System.Text.Json;
 using AWS.Lambda.Powertools.Logging;
 using Microsoft.IdentityModel.Tokens;
 
@@ -29,10 +26,9 @@ public class CognitoJwtVerifier
         {
             IssuerSigningKeyResolver = (s, securityToken, identifier, parameters) =>
             {
-                //TODO: Webclient is Obsolete, use HttpClient instead (but keep it simple)
-                var json = new WebClient().DownloadString(parameters.ValidIssuer + "/.well-known/jwks.json");
-                var keys = JsonWebKeySet.Create(json);
-                return (IEnumerable<SecurityKey>)keys.GetSigningKeys();
+                var asyncJson = new HttpClient().GetStringAsync(parameters.ValidIssuer + "/.well-known/jwks.json");
+                Task.WaitAll(asyncJson);
+                return JsonWebKeySet.Create(asyncJson.Result).GetSigningKeys();
             },
             ValidIssuer = $"https://cognito-idp.{_region}.amazonaws.com/{_userPoolId}",
             ValidateIssuerSigningKey = true,
