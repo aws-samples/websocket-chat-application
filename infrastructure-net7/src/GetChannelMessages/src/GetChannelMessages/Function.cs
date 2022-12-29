@@ -1,9 +1,8 @@
 using System.Text.Json;
 using Amazon;
-using Amazon.CognitoIdentityProvider;
-using Amazon.CognitoIdentityProvider.Model;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
+using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.RuntimeSupport;
@@ -15,23 +14,21 @@ using AWS.Lambda.Powertools.Tracing;
 using Shared;
 using Shared.Models;
 
-namespace GetUsers;
+namespace GetChannelMessages;
 
 public class Function
 {
-    public static string? ConnectionsTableName => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.ConnectionsTableName);
-    public static string? CognitoUserPoolId => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.CognitoUserPoolId);
-
+    public static string? MessagesTableName => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.MessagesTableName);
     private static readonly DynamoDBContext _dynamoDbContext;
 
     static Function()
     {
         AWSSDKHandler.RegisterXRayForAllServices();
         
-        if (!string.IsNullOrEmpty(ConnectionsTableName))
+        if (!string.IsNullOrEmpty(MessagesTableName))
         {
-            AWSConfigsDynamoDB.Context.TypeMappings[typeof(Connection)] =
-                new Amazon.Util.TypeMapping(typeof(Connection), ConnectionsTableName);
+            AWSConfigsDynamoDB.Context.TypeMappings[typeof(Message)] =
+                new Amazon.Util.TypeMapping(typeof(Message), MessagesTableName);
         }//TODO: throw error if env variables are not present
 
         var config = new DynamoDBContextConfig { Conversion = DynamoDBEntryConversion.V2 };
@@ -66,35 +63,17 @@ public class Function
         var response = new APIGatewayProxyResponse { StatusCode = 200, Body = "OK" };
 
         Logger.LogInformation("Lambda has been invoked successfully.");
+
+        var channelId = apigProxyEvent.PathParameters["id"];
+        Logger.LogInformation($"Channel id: {channelId}");
         
         try
         {
-            Logger.LogInformation("Retrieving active connections...");
-            var connectionData = await _dynamoDbContext.ScanAsync<Connection>(Array.Empty<ScanCondition>()).GetRemainingAsync();
-
-            // Get all Cognito users
-            AmazonCognitoIdentityProviderClient cognitoClient = new AmazonCognitoIdentityProviderClient();
-            var users = await cognitoClient.ListUsersAsync(new ListUsersRequest()
-            {
-                UserPoolId = CognitoUserPoolId
-            });
+            var messages = await _dynamoDbContext.ScanAsync<Message>(new []{new ScanCondition("channelId", ScanOperator.Equal, channelId)}).GetRemainingAsync();
+            Logger.LogInformation($"Retrieved messages for channel {channelId}");
+            Logger.LogInformation(messages);
             
-
-            // Merge list into response format
-            var userList = new List<User>();
-            foreach (var user in users.Users)
-            {
-                var userIsConnected = connectionData.FirstOrDefault(c => c.userId == user.Username) != null;
-                userList.Add(new User()
-                {
-                    username = user.Username,
-                    status = userIsConnected ? Status.ONLINE : Status.OFFLINE
-                });
-            }
-            Logger.LogInformation("Finished compiling user list");
-            Logger.LogInformation(users);
-
-            response.Body = JsonSerializer.Serialize(userList.ToArray());
+            response.Body = JsonSerializer.Serialize(messages.ToArray());
             return response;
         }
         catch (Exception e)

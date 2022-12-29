@@ -37,7 +37,7 @@ class Lambda implements LambdaInterface {
       await ddb.put(channelParams).promise();
 
       logger.debug(JSON.stringify(event));
-      logger.debug('Get Users executed successfully!');
+      logger.debug('Post Channel executed successfully!');
     }
     catch (e: any) {
       response = { statusCode: 500, body: e.stack };

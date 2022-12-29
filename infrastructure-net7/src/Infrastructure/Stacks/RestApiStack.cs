@@ -48,8 +48,8 @@ namespace Infrastructure.Stacks
             };
             
             var getUsersHandler = new CustomRuntimeFunction(this, "GetUsersHandler",
-                "./src/GetUsersHandler/src/GetUsersHandler", 
-                "bootstrap::GetUsersHandler.Function::FunctionHandler", defaultLambdaEnvironment);
+                "./src/GetUsers/src/GetUsers", 
+                "bootstrap::GetUsers.Function::FunctionHandler", defaultLambdaEnvironment);
             props?.ConnectionsTable.GrantReadData(getUsersHandler);
             getUsersHandler.AddToRolePolicy(new PolicyStatement(new PolicyStatementProps()
             {
@@ -59,8 +59,8 @@ namespace Infrastructure.Stacks
             }));
             
             var getConfigHandler = new CustomRuntimeFunction(this, "GetConfigHandler",
-                "./src/GetConfigHandler/src/GetConfigHandler", 
-                "bootstrap::GetConfigHandler.Function::FunctionHandler", defaultLambdaEnvironment);
+                "./src/GetConfig/src/GetConfig", 
+                "bootstrap::GetConfig.Function::FunctionHandler", defaultLambdaEnvironment);
             getConfigHandler.AddToRolePolicy(new PolicyStatement(new PolicyStatementProps()
             {
                 Effect = Effect.ALLOW,
@@ -77,20 +77,20 @@ namespace Infrastructure.Stacks
             }));
             
             var getChannelsHandler = new CustomRuntimeFunction(this, "GetChannelsHandler",
-                "./src/GetChannelsHandler/src/GetChannelsHandler", 
-                "bootstrap::GetChannelsHandler.Function::FunctionHandler", defaultLambdaEnvironment);
+                "./src/GetChannels/src/GetChannels", 
+                "bootstrap::GetChannels.Function::FunctionHandler", defaultLambdaEnvironment);
             
             var postChannelsHandler = new CustomRuntimeFunction(this, "PostChannelsHandler",
-                "./src/PostChannelsHandler/src/PostChannelsHandler", 
-                "bootstrap::PostChannelsHandler.Function::FunctionHandler", defaultLambdaEnvironment);
+                "./src/PostChannels/src/PostChannels", 
+                "bootstrap::PostChannels.Function::FunctionHandler", defaultLambdaEnvironment);
             
             var getChannelHandler = new CustomRuntimeFunction(this, "GetChannelHandler",
-                "./src/GetChannelHandler/src/GetChannelHandler", 
-                "bootstrap::GetChannelHandler.Function::FunctionHandler", defaultLambdaEnvironment);
+                "./src/GetChannel/src/GetChannel", 
+                "bootstrap::GetChannel.Function::FunctionHandler", defaultLambdaEnvironment);
             
             var getChannelMessagesHandler = new CustomRuntimeFunction(this, "GetChannelMessagesHandler",
-                "./src/GetChannelMessagesHandler/src/GetChannelMessagesHandler", 
-                "bootstrap::GetChannelMessagesHandler.Function::FunctionHandler", defaultLambdaEnvironment);
+                "./src/GetChannelMessages/src/GetChannelMessages", 
+                "bootstrap::GetChannelMessages.Function::FunctionHandler", defaultLambdaEnvironment);
 
             // Grant the Lambda functions read/write access to the DynamoDB tables
             props?.ChannelsTable.GrantReadWriteData(getChannelsHandler);

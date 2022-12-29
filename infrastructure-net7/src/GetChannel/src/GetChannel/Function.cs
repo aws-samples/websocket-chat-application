@@ -1,7 +1,4 @@
-using System.Text.Json;
 using Amazon;
-using Amazon.CognitoIdentityProvider;
-using Amazon.CognitoIdentityProvider.Model;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.Lambda.APIGatewayEvents;
@@ -15,23 +12,21 @@ using AWS.Lambda.Powertools.Tracing;
 using Shared;
 using Shared.Models;
 
-namespace GetUsers;
+namespace GetChannel;
 
 public class Function
 {
-    public static string? ConnectionsTableName => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.ConnectionsTableName);
-    public static string? CognitoUserPoolId => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.CognitoUserPoolId);
-
+    public static string? ChannelsTableName => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.ChannelsTableName);
     private static readonly DynamoDBContext _dynamoDbContext;
 
     static Function()
     {
         AWSSDKHandler.RegisterXRayForAllServices();
         
-        if (!string.IsNullOrEmpty(ConnectionsTableName))
+        if (!string.IsNullOrEmpty(ChannelsTableName))
         {
-            AWSConfigsDynamoDB.Context.TypeMappings[typeof(Connection)] =
-                new Amazon.Util.TypeMapping(typeof(Connection), ConnectionsTableName);
+            AWSConfigsDynamoDB.Context.TypeMappings[typeof(Channel)] =
+                new Amazon.Util.TypeMapping(typeof(Channel), ChannelsTableName);
         }//TODO: throw error if env variables are not present
 
         var config = new DynamoDBContextConfig { Conversion = DynamoDBEntryConversion.V2 };
@@ -69,32 +64,9 @@ public class Function
         
         try
         {
-            Logger.LogInformation("Retrieving active connections...");
-            var connectionData = await _dynamoDbContext.ScanAsync<Connection>(Array.Empty<ScanCondition>()).GetRemainingAsync();
+            //TODO: this method handler seems to be unused. Remove?
+            var channel = await _dynamoDbContext.QueryAsync<Channel>("channelName").GetRemainingAsync();
 
-            // Get all Cognito users
-            AmazonCognitoIdentityProviderClient cognitoClient = new AmazonCognitoIdentityProviderClient();
-            var users = await cognitoClient.ListUsersAsync(new ListUsersRequest()
-            {
-                UserPoolId = CognitoUserPoolId
-            });
-            
-
-            // Merge list into response format
-            var userList = new List<User>();
-            foreach (var user in users.Users)
-            {
-                var userIsConnected = connectionData.FirstOrDefault(c => c.userId == user.Username) != null;
-                userList.Add(new User()
-                {
-                    username = user.Username,
-                    status = userIsConnected ? Status.ONLINE : Status.OFFLINE
-                });
-            }
-            Logger.LogInformation("Finished compiling user list");
-            Logger.LogInformation(users);
-
-            response.Body = JsonSerializer.Serialize(userList.ToArray());
             return response;
         }
         catch (Exception e)
