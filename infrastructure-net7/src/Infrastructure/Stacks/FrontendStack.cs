@@ -14,7 +14,7 @@ using Constructs;
 
 namespace Infrastructure.Stacks
 {
-    public class FrontendStackProps : IStackProps
+    public class FrontendStackProps : StackProps
     {
         public RestApi RestApi { get; set; }
         public WebSocketApi WebsocketApi { get; set; }
@@ -44,7 +44,7 @@ namespace Infrastructure.Stacks
                 Principals = new []{new AnyPrincipal()},
                 Actions = new []{"s3:*"},
                 Resources = new[]{siteBucket.BucketArn},
-                Conditions =
+                Conditions = new Dictionary<string, object>()
                 {
                     {"Bool", new Dictionary<string,string> { {"aws:SecureTransport", "false" }}}
                 }
@@ -66,7 +66,7 @@ namespace Infrastructure.Stacks
                 Principals = new []{new AnyPrincipal()},
                 Actions = new []{"s3:*"},
                 Resources = new[]{logBucket.BucketArn},
-                Conditions =
+                Conditions = new Dictionary<string, object>()
                 {
                     {"Bool", new Dictionary<string,string> { {"aws:SecureTransport", "false" }}}
                 }

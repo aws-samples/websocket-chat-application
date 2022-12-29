@@ -37,13 +37,13 @@ namespace Infrastructure
             restApiStack.AddDependency(authStack);
             restApiStack.AddDependency(websocketApiStack);
             restApiStack.AddDependency(databaseStack);
-            
+
             var frontendStack = new FrontendStack(app, "FrontendStack", new FrontendStackProps
             {
                 RestApi = restApiStack.RestApi,
                 WebsocketApi = websocketApiStack.WebSocketApi,
                 CognitoUserPoolId = authStack.CognitoUserPoolId,
-                CognitoDomainPrefix = "serverless-chat-users"
+                CognitoDomainPrefix = "serverless-chat-users-net7"
             });
             frontendStack.AddDependency(restApiStack);
             

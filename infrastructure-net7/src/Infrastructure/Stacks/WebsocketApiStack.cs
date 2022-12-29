@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Stacks
 {
-    public class WebsocketApiStackProps : IStackProps
+    public class WebsocketApiStackProps : StackProps
     {
         public Table MessagesTable { get; set; }
         public Table ChannelsTable { get; set; }
@@ -23,7 +23,7 @@ namespace Infrastructure.Stacks
     public class WebsocketApiStack : Stack
     {
         public WebSocketApi WebSocketApi { get; set; }
-        internal WebsocketApiStack(Construct scope, string id, WebsocketApiStackProps props = null) : base(scope, id, props)
+        internal WebsocketApiStack(Construct scope, string id, WebsocketApiStackProps props) : base(scope, id, props)
         {
             // SQS queue for user status updates
             var statusQueue = new Queue(this, "user-status-queue", new QueueProps()
@@ -40,7 +40,7 @@ namespace Infrastructure.Stacks
                 Principals = new[]{ new AnyPrincipal()},
                 Actions = new[]{ "sqs:*"},
                 Resources = new []{statusQueue.QueueArn},
-                Conditions =
+                Conditions = new Dictionary<string, object>()
                 {
                     {"Bool", new Dictionary<string,string> { {"aws:SecureTransport", "false" }}}
                 }
@@ -69,24 +69,24 @@ namespace Infrastructure.Stacks
 
             #region Lambda handlers
             var authorizerHandler = new CustomRuntimeFunction(this, "AuthorizerHandler",
-                "./src/WebsocketAuthorizer/src/WebsocketAuthorizer", 
+                "./src/","./WebsocketAuthorizer/src/WebsocketAuthorizer", 
                 "bootstrap::WebsocketAuthorizer.Function::FunctionHandler", defaultLambdaEnvironment);
             authorizerHandler.AddToRolePolicy(ssmPolicyStatement);
             
-            var onConnectHandler = new CustomRuntimeFunction(this, "OnConnectHandler",
-                "./src/OnConnect/src/OnConnect", 
+           var onConnectHandler = new CustomRuntimeFunction(this, "OnConnectHandler",
+               "./src/","./OnConnect/src/OnConnect", 
                 "bootstrap::OnConnect.Function::FunctionHandler", defaultLambdaEnvironment);
             props?.ConnectionsTable.GrantReadWriteData(onConnectHandler);
             statusQueue.GrantSendMessages(onConnectHandler);
 
             var onDisconnectHandler = new CustomRuntimeFunction(this, "OnDisconnectHandler",
-                "./src/OnConnect/src/OnConnect", 
+                "./src/","./OnConnect/src/OnConnect", 
                 "bootstrap::OnConnect.Function::FunctionHandler", defaultLambdaEnvironment);
             props?.ConnectionsTable.GrantReadWriteData(onDisconnectHandler);
             statusQueue.GrantSendMessages(onDisconnectHandler);
             
             var onMessageHandler = new CustomRuntimeFunction(this, "OnMessageHandler",
-                "./src/OnMessage/src/OnMessage", 
+                "./src/","./OnMessage/src/OnMessage", 
                 "bootstrap::OnMessage.Function::FunctionHandler", defaultLambdaEnvironment);
             onMessageHandler.AddToRolePolicy(ssmPolicyStatement);
             props?.ConnectionsTable.GrantReadWriteData(onMessageHandler);
@@ -96,7 +96,7 @@ namespace Infrastructure.Stacks
             var authorizer = new WebSocketLambdaAuthorizer("Authorizer", authorizerHandler,
                 new WebSocketLambdaAuthorizerProps()
                 {
-                    IdentitySource = new []{ "'route.request.header.Cookie'" }
+                    IdentitySource = new []{ "route.request.header.Cookie" }
                 });
 
             this.WebSocketApi = new WebSocketApi(this, "ServerlessChatWebsocketApi", new WebSocketApiProps()
@@ -126,7 +126,7 @@ namespace Infrastructure.Stacks
             
             defaultLambdaEnvironment.Add("APIGW_ENDPOINT", prodStage.Url.Replace("wss://", ""));
             var userStatusBroadcastHandler = new CustomRuntimeFunction(this, "UserStatusBroadcastHandler",
-                "./src/StatusBroadcast/src/StatusBroadcast", 
+                "./src/","./StatusBroadcast/src/StatusBroadcast", 
                 "bootstrap::StatusBroadcast.Function::FunctionHandler", defaultLambdaEnvironment);
             userStatusBroadcastHandler.AddEventSource(new SqsEventSource(statusQueue, new SqsEventSourceProps()
             {

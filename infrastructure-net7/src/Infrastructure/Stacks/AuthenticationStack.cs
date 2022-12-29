@@ -50,11 +50,6 @@ namespace Infrastructure.Stacks
             });
 
             this.CognitoUserPoolId = this.ServerlessUserPool.UserPoolId;
-            
-            /*CustomRuntimeFunction sampleLambda = new CustomRuntimeFunction(this, "SampleLambda",
-                "./src/SampleLambda/src/SampleLambda", 
-                "bootstrap::SampleLambda.Function::FunctionHandler");*/
-           
         }
     }
 }

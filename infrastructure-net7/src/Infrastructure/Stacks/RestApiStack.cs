@@ -11,7 +11,7 @@ using IResource = Amazon.CDK.AWS.APIGateway.IResource;
 
 namespace Infrastructure.Stacks
 {
-    public class RestApiStackProps : IStackProps
+    public class RestApiStackProps : StackProps
     {
         public Table MessagesTable { get; set; }
         public Table ChannelsTable { get; set; }
@@ -48,7 +48,7 @@ namespace Infrastructure.Stacks
             };
             
             var getUsersHandler = new CustomRuntimeFunction(this, "GetUsersHandler",
-                "./src/GetUsers/src/GetUsers", 
+                "./src/","./GetUsers/src/GetUsers", 
                 "bootstrap::GetUsers.Function::FunctionHandler", defaultLambdaEnvironment);
             props?.ConnectionsTable.GrantReadData(getUsersHandler);
             getUsersHandler.AddToRolePolicy(new PolicyStatement(new PolicyStatementProps()
@@ -59,7 +59,7 @@ namespace Infrastructure.Stacks
             }));
             
             var getConfigHandler = new CustomRuntimeFunction(this, "GetConfigHandler",
-                "./src/GetConfig/src/GetConfig", 
+                "./src/","./GetConfig/src/GetConfig", 
                 "bootstrap::GetConfig.Function::FunctionHandler", defaultLambdaEnvironment);
             getConfigHandler.AddToRolePolicy(new PolicyStatement(new PolicyStatementProps()
             {
@@ -77,19 +77,19 @@ namespace Infrastructure.Stacks
             }));
             
             var getChannelsHandler = new CustomRuntimeFunction(this, "GetChannelsHandler",
-                "./src/GetChannels/src/GetChannels", 
+                "./src/","./GetChannels/src/GetChannels", 
                 "bootstrap::GetChannels.Function::FunctionHandler", defaultLambdaEnvironment);
             
             var postChannelsHandler = new CustomRuntimeFunction(this, "PostChannelsHandler",
-                "./src/PostChannels/src/PostChannels", 
+                "./src/","./PostChannels/src/PostChannels", 
                 "bootstrap::PostChannels.Function::FunctionHandler", defaultLambdaEnvironment);
             
             var getChannelHandler = new CustomRuntimeFunction(this, "GetChannelHandler",
-                "./src/GetChannel/src/GetChannel", 
+                "./src/","./GetChannel/src/GetChannel", 
                 "bootstrap::GetChannel.Function::FunctionHandler", defaultLambdaEnvironment);
             
             var getChannelMessagesHandler = new CustomRuntimeFunction(this, "GetChannelMessagesHandler",
-                "./src/GetChannelMessages/src/GetChannelMessages", 
+                "./src/","./GetChannelMessages/src/GetChannelMessages", 
                 "bootstrap::GetChannelMessages.Function::FunctionHandler", defaultLambdaEnvironment);
 
             // Grant the Lambda functions read/write access to the DynamoDB tables

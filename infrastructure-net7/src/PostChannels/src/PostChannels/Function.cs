@@ -69,7 +69,7 @@ public class Function
         {
             await _dynamoDbContext.SaveAsync(channel);
             Logger.LogInformation("Channel saved to DynamoDB");
-            
+ 
             return response;
         }
         catch (Exception e)
