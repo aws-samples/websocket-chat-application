@@ -1,5 +1,6 @@
 namespace Shared.Models;
 
+[Serializable]
 public class Connection
 {
     public Connection()

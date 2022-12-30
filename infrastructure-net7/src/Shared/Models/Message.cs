@@ -1,9 +1,19 @@
 namespace Shared.Models;
 
+[Serializable]
 public class Message : Payload
 {
     public Message(string type) : base(type)
     {
+    }
+
+    public Message(string type, string sender, string text, DateTime sentAt, string channelId, string messageId) : base(type)
+    {
+        this.sender = sender;
+        this.text = text;
+        this.sentAt = sentAt;
+        this.channelId = channelId;
+        this.messageId = messageId;
     }
 
     public string? sender { get; set; }
