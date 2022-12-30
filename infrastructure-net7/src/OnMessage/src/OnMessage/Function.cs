@@ -67,7 +67,7 @@ public class Function
 
         Logger.LogInformation("Lambda has been invoked successfully.");
         
-        var apiGatewayEndpoint = $"{apigProxyEvent.RequestContext.DomainName}/{apigProxyEvent.RequestContext.Stage}";
+        var apiGatewayEndpoint = $"https://{apigProxyEvent.RequestContext.DomainName}/{apigProxyEvent.RequestContext.Stage}";
         Logger.LogInformation($"APIGatewayEndpoint: {apiGatewayEndpoint}");
 
         try
