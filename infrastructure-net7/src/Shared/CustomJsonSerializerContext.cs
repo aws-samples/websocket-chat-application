@@ -17,6 +17,7 @@ namespace Shared;
 [JsonSerializable(typeof(Status))]
 [JsonSerializable(typeof(SQSEvent))]
 [JsonSerializable(typeof(Dictionary<string, string>))]
+[JsonSerializable(typeof(APIGatewayCustomAuthorizerRequest))]
 public partial class CustomJsonSerializerContext : JsonSerializerContext
 {
 }

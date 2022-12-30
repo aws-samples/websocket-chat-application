@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.RuntimeSupport;
@@ -32,7 +33,7 @@ public class Function
     private static async Task Main(string[] args)
     {
         Func<APIGatewayCustomAuthorizerRequest, ILambdaContext, Task<APIGatewayCustomAuthorizerResponse>> handler = FunctionHandler;
-        await LambdaBootstrapBuilder.Create(handler, new SourceGeneratorLambdaJsonSerializer<CustomJsonSerializerContext>(options => {
+        await LambdaBootstrapBuilder.Create(handler, new SourceGeneratorLambdaJsonSerializer<JsonSerializerContext>(options => {
                 options.PropertyNameCaseInsensitive = true;
             }))
             .Build()
@@ -40,8 +41,8 @@ public class Function
     }
     
     [Logging(LogEvent = true, Service = "websocketMessagingService")]
-    [Metrics(CaptureColdStart = true, Namespace = "websocket-chat")]
-    [Tracing(CaptureMode = TracingCaptureMode.ResponseAndError, Namespace = "websocket-chat")]
+    //[Metrics(CaptureColdStart = true, Namespace = "websocket-chat")]
+    //[Tracing(CaptureMode = TracingCaptureMode.ResponseAndError, Namespace = "websocket-chat")]
     public static async Task<APIGatewayCustomAuthorizerResponse> FunctionHandler(APIGatewayCustomAuthorizerRequest apigProxyEvent, ILambdaContext context)
     {
         // Appended keys are added to all subsequent log entries in the current execution.
