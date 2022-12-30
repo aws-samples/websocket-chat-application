@@ -66,7 +66,7 @@ public class Function
             Logger.LogInformation(keyPair.Key + " - " + keyPair.Value);
         }
         
-        var authenticatedCustomerId = (string)apigProxyEvent.RequestContext.Authorizer["customerId"];
+        var authenticatedCustomerId = ((JsonElement)apigProxyEvent.RequestContext.Authorizer["customerId"]).GetString();
         var connectionId = apigProxyEvent.RequestContext.ConnectionId;
 
         // Prepare Connection object for insert
