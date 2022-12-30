@@ -121,6 +121,9 @@ public class Function
             PrincipalID = principalId,
             PolicyDocument = policyDocument,
             Context = new APIGatewayCustomAuthorizerContextOutput()
+            {
+                {"customerId", principalId}
+            }
         };
         return response;
     }
