@@ -76,7 +76,9 @@ public class Function
         }
         catch (Exception e)
         {
+            Logger.LogInformation("Error happened while reading/broadcasting SQS messages!");
             Logger.LogError(e);
+            Logger.LogError(e.StackTrace);
         }
     }
 }

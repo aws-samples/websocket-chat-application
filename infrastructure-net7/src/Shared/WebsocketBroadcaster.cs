@@ -46,46 +46,57 @@ public class WebsocketBroadcaster
 
         // Broadcast message parallel with concurrency limit to avoid API throttling
         var options = new ParallelOptions { MaxDegreeOfParallelism = 5 };
-        await Parallel.ForEachAsync(connectionData, options, async (item, token) =>
+        try
         {
-            try
+            await Parallel.ForEachAsync(connectionData, options, async (item, token) =>
             {
-                Logger.LogInformation($"Broadcasting connection item: {item.connectionId} - {item.userId}");
-                var apiClient = new AmazonApiGatewayManagementApiClient(new AmazonApiGatewayManagementApiConfig
+                try
                 {
-                    ServiceURL = apiGatewayEndpoint
-                });
-                Logger.LogInformation(apiClient);
-                var stream = new MemoryStream(messageBinary);
-                var postConnectionRequest = new PostToConnectionRequest
-                {
-                    ConnectionId = item.connectionId,
-                    Data = stream
-                };
+                    Logger.LogInformation($"Broadcasting connection item: {item.connectionId} - {item.userId}");
+                    var apiClient = new AmazonApiGatewayManagementApiClient(new AmazonApiGatewayManagementApiConfig
+                    {
+                        ServiceURL = apiGatewayEndpoint
+                    });
+                    //Logger.LogInformation(apiClient);
+                    var stream = new MemoryStream(messageBinary);
+                    var postConnectionRequest = new PostToConnectionRequest
+                    {
+                        ConnectionId = item.connectionId,
+                        Data = stream
+                    };
 
-                Logger.LogInformation($"Broadcast to connection: {item.connectionId}");
-                await apiClient.PostToConnectionAsync(postConnectionRequest);
-            }
-            catch (AmazonServiceException e)
-            {
-                // API Gateway returns a status of 410 GONE when the connection is no
-                // longer available. If this happens, we simply delete the identifier
-                // from our DynamoDB table.
-                if (e.StatusCode == HttpStatusCode.Gone)
-                {
-                    Logger.LogInformation($"Deleting stale connection: {item.connectionId}");
-                    await _dbContext.DeleteAsync(item);
+                    Logger.LogInformation($"Broadcast to connection: {item.connectionId}");
+                    await apiClient.PostToConnectionAsync(postConnectionRequest);
                 }
-                else
+                catch (AmazonServiceException e)
                 {
-                    Logger.LogError($"Error posting message to {item.connectionId}: {e.Message}");
-                    Logger.LogCritical(e.StackTrace);
+                    // API Gateway returns a status of 410 GONE when the connection is no
+                    // longer available. If this happens, we simply delete the identifier
+                    // from our DynamoDB table.
+                    if (e.StatusCode == HttpStatusCode.Gone)
+                    {
+                        Logger.LogInformation($"Deleting stale connection: {item.connectionId}");
+                        await _dbContext.DeleteAsync(item);
+                    }
+                    else
+                    {
+                        Logger.LogError($"Error posting message to {item.connectionId}: {e.Message}");
+                        Logger.LogCritical(e.StackTrace);
+                    }
                 }
-            }
-            catch (Exception e)
-            {
-                Logger.LogError(e);
-            }
-        });
+                catch (Exception e)
+                {
+                    Logger.LogInformation("Error while broadcasting messages!");
+                    Logger.LogError(e);
+                    Logger.LogError(e.StackTrace);
+                }
+            });
+        }
+        catch (Exception e)
+        {
+            Logger.LogInformation("Error while processing messages in parallel!");
+            Logger.LogError(e);
+            Logger.LogError(e.StackTrace);
+        }
     }
 }
