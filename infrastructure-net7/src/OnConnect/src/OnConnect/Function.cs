@@ -60,6 +60,11 @@ public class Function
         var response = new APIGatewayProxyResponse { StatusCode = 200, Body = "OK" };
 
         Logger.LogInformation("Lambda has been invoked successfully.");
+
+        foreach (var keyPair in apigProxyEvent.RequestContext.Authorizer)
+        {
+            Logger.LogInformation(keyPair.Key + " - " + keyPair.Value);
+        }
         
         var authenticatedCustomerId = (string)apigProxyEvent.RequestContext.Authorizer["customer_id"];
         var connectionId = apigProxyEvent.RequestContext.ConnectionId;
