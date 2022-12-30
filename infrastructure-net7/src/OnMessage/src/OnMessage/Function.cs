@@ -72,10 +72,15 @@ public class Function
 
         try
         {
-            var postObject = JsonSerializer.Deserialize<Payload>(apigProxyEvent.Body);
-            if (postObject?.type == "Message")
+            //TODO: this is messy, find a cleaner solution to deserialize payload content
+            var postObject = JsonSerializer.Deserialize<WebsocketPayload>(apigProxyEvent.Body);
+            var payloadString = ((JsonElement)postObject.data).ToString();
+            var message = JsonSerializer.Deserialize<Message>(payloadString);
+
+            if (message != null)
             {
-                var message = (Message)postObject;
+                Logger.LogInformation($"Received Message...");
+                Logger.LogInformation(message);
                 message.messageId = Guid.NewGuid().ToString();
                 
                 Logger.LogInformation($"Saving message {message}");
@@ -83,6 +88,10 @@ public class Function
 
                 Logger.LogInformation($"Broadcasting message {message}");
                 await _websocketBroadcaster.Broadcast(message, apiGatewayEndpoint);
+            }
+            else
+            {
+                throw new Exception("Invalid payload - cannot deserialize to Message object!");
             }
 
             return response;
