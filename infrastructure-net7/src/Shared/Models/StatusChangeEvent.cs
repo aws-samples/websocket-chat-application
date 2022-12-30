@@ -2,7 +2,7 @@ namespace Shared.Models;
 
 public class StatusChangeEvent : Payload
 {
-    public StatusChangeEvent(string type) : base(type)
+    public StatusChangeEvent() : base("StatusChangeEvent")
     {
     }
 

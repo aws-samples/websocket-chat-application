@@ -3,8 +3,7 @@ namespace Shared.Models;
 [Serializable]
 public class Message : Payload
 {
-    public Message(string type) : base(type)
-    {
+    public Message() : base("Message") {
     }
 
     public Message(string type, string sender, string text, DateTime sentAt, string channelId, string messageId) : base(type)
