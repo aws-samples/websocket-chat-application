@@ -8,7 +8,7 @@ namespace Infrastructure
     {
         public static void Main(string[] args)
         {
-            var defaultLogLevel = LogLevel.Error;
+            var defaultLogLevel = LogLevel.Information;
             var app = new App();
             
             var authStack = new AuthenticationStack(app, "AuthenticationStack", new StackProps{ });

@@ -47,7 +47,7 @@ public class Function
     private static async Task Main(string[] args)
     {
         Func<SQSEvent, ILambdaContext, Task> handler = FunctionHandler;
-        await LambdaBootstrapBuilder.Create(handler, new SourceGeneratorLambdaJsonSerializer<CustomJsonSerializerContext>(options => {
+        await LambdaBootstrapBuilder.Create(handler, new DefaultLambdaJsonSerializer(options => {
                 options.PropertyNameCaseInsensitive = true;
             }))
             .Build()
@@ -59,15 +59,8 @@ public class Function
     [Tracing(CaptureMode = TracingCaptureMode.ResponseAndError, Namespace = "websocket-chat")]
     public static async Task FunctionHandler(SQSEvent sqsEvent, ILambdaContext context)
     {
-        // Appended keys are added to all subsequent log entries in the current execution.
-        // Call this method as early as possible in the Lambda handler.
-        // Typically this is value would be passed into the function via the event.
-        // Set the ClearState = true to force the removal of keys across invocations
-        Logger.AppendKeys(new Dictionary<string, object>{{ "Lambda context", context }});
-        Logger.AppendKeys(new Dictionary<string, object>{{ "SQS event", sqsEvent }});
-
+        Logger.LogInformation(new Dictionary<string, object>{{ "Lambda context", context }});
         Logger.LogInformation("Lambda has been invoked successfully.");
-        Logger.LogInformation($"SQS Event: {sqsEvent}");
         Logger.LogInformation($"APIGatewayEndpoint: {ApiGatewayEndpoint}");
 
         try
