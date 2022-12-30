@@ -75,7 +75,8 @@ public class Function
             {
                 Logger.LogInformation($"Token has been verified successfully.");    
                 var policyResult = GenerateAllow(verifiedToken.Claims.First(t=> t.Type == "cognito:username").Value, apigProxyEvent.MethodArn);
-                Logger.LogInformation($"Generated policy: {policyResult}");
+                Logger.LogInformation(policyResult);
+                return policyResult;
             }
             
             Logger.LogInformation("Authorization failed. Returning Deny policy.");

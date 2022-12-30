@@ -70,6 +70,7 @@ namespace Infrastructure
                 Code = Code.FromAsset(mountPath, new Amazon.CDK.AWS.S3.Assets.AssetOptions
                 {   
                     Exclude = new []{
+                        "**/cdk.out",
                         "**/.dockerignore",
                         "**/.env",
                         "**/.git",
@@ -97,7 +98,7 @@ namespace Infrastructure
                         "README.md",},
                     Bundling = new BundlingOptions
                     {
-                        Image = DockerImage.FromBuild("./"), // Dockerfile in {repo-root}/infrastructure-net7/
+                        Image = DockerImage.FromBuild("./src/"), // Dockerfile in {repo-root}/infrastructure-net7/src/
                         Command = new[]
                         {
                             "bash", "-c", string.Join(" && ", defaultLambdaPackagingCommands)
