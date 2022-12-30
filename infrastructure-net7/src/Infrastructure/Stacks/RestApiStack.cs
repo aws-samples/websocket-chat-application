@@ -43,7 +43,7 @@ namespace Infrastructure.Stacks
                 {"MESSAGES_TABLE_NAME", props?.MessagesTable.TableName},
                 {"CHANNELS_TABLE_NAME", props?.ChannelsTable.TableName},
                 {"COGNITO_USER_POOL_ID", props?.CognitoUserPoolId},
-                {"WEBSOCKET_API_URL", $"{props?.WebSocketApi.ApiEndpoint!}/wss"},
+                {"WEBSOCKET_API_URL", $"https://{props?.WebSocketApi.ApiEndpoint!}/wss"},
                 {"POWERTOOLS_LOG_LEVEL", props?.LogLevel.ToString()}
             };
             
