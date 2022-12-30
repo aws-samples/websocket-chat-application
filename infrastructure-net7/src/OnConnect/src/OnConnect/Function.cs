@@ -61,7 +61,7 @@ public class Function
 
         Logger.LogInformation("Lambda has been invoked successfully.");
         
-        var authenticatedCustomerId = apigProxyEvent.RequestContext.Authorizer?.Claims["customer_id"];
+        var authenticatedCustomerId = (string)apigProxyEvent.RequestContext.Authorizer["customer_id"];
         var connectionId = apigProxyEvent.RequestContext.ConnectionId;
 
         // Prepare Connection object for insert
