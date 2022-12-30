@@ -48,20 +48,21 @@ public class WebsocketBroadcaster
         var options = new ParallelOptions { MaxDegreeOfParallelism = 5 };
         await Parallel.ForEachAsync(connectionData, options, async (item, token) =>
         {
-            Logger.LogInformation($"Broadcasting connection item: {item.connectionId} - {item.userId}");
-            var apiClient = new AmazonApiGatewayManagementApiClient(new AmazonApiGatewayManagementApiConfig
-            {
-                ServiceURL = apiGatewayEndpoint
-            });
-            Logger.LogInformation(apiClient);
-            var stream = new MemoryStream(messageBinary);
-            var postConnectionRequest = new PostToConnectionRequest
-            {
-                ConnectionId = item.connectionId,
-                Data = stream
-            };
             try
             {
+                Logger.LogInformation($"Broadcasting connection item: {item.connectionId} - {item.userId}");
+                var apiClient = new AmazonApiGatewayManagementApiClient(new AmazonApiGatewayManagementApiConfig
+                {
+                    ServiceURL = apiGatewayEndpoint
+                });
+                Logger.LogInformation(apiClient);
+                var stream = new MemoryStream(messageBinary);
+                var postConnectionRequest = new PostToConnectionRequest
+                {
+                    ConnectionId = item.connectionId,
+                    Data = stream
+                };
+
                 Logger.LogInformation($"Broadcast to connection: {item.connectionId}");
                 await apiClient.PostToConnectionAsync(postConnectionRequest);
             }
@@ -80,6 +81,10 @@ public class WebsocketBroadcaster
                     Logger.LogError($"Error posting message to {item.connectionId}: {e.Message}");
                     Logger.LogCritical(e.StackTrace);
                 }
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e);
             }
         });
     }
