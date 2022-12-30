@@ -56,7 +56,7 @@ public class Function
     
     [Logging(LogEvent = true, Service = "websocketMessagingService")]
     [Metrics(CaptureColdStart = true, Namespace = "websocket-chat")]
-    [Tracing(CaptureMode = TracingCaptureMode.ResponseAndError, Namespace = "websocket-chat")]
+    //[Tracing(CaptureMode = TracingCaptureMode.ResponseAndError, Namespace = "websocket-chat")]
     public static async Task FunctionHandler(SQSEvent sqsEvent, ILambdaContext context)
     {
         Logger.LogInformation(new Dictionary<string, object>{{ "Lambda context", context }});
