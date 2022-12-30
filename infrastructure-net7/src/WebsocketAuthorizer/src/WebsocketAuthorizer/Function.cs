@@ -105,9 +105,9 @@ public class Function
             {
                 new APIGatewayCustomAuthorizerPolicy.IAMPolicyStatement()
                 {
-                    Action = {"execute-api:Invoke"},
+                    Action = new HashSet<string>(){"execute-api:Invoke"},
                     Effect = effect,
-                    Resource = {resource}
+                    Resource = new HashSet<string>(){resource}
                 }
             }
         };
