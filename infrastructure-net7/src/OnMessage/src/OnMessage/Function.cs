@@ -87,7 +87,7 @@ public class Function
                 await _dynamoDbContext.SaveAsync(message);
 
                 Logger.LogInformation($"Broadcasting message {message}");
-                await _websocketBroadcaster.Broadcast(message, apiGatewayEndpoint);
+                await _websocketBroadcaster.Broadcast(JsonSerializer.Serialize(message), apiGatewayEndpoint);
             }
             else
             {

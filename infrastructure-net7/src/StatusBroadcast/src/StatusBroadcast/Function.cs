@@ -70,7 +70,7 @@ public class Function
                 var statusChangeEvent = JsonSerializer.Deserialize<StatusChangeEvent>(eventRecord.Body);
                 if (statusChangeEvent != null)
                 {
-                    await _websocketBroadcaster.Broadcast(statusChangeEvent, ApiGatewayEndpoint!);
+                    await _websocketBroadcaster.Broadcast(JsonSerializer.Serialize(statusChangeEvent), ApiGatewayEndpoint!);
                 }
             }
         }

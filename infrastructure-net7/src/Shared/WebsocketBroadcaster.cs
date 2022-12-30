@@ -23,7 +23,7 @@ public class WebsocketBroadcaster
     [Logging(LogEvent = true, Service = "websocketMessagingService")]
     [Metrics(Namespace = "websocket-chat")]
     //[Tracing(CaptureMode = TracingCaptureMode.ResponseAndError, Namespace = "websocket-chat")]
-    public async Task Broadcast(Message payload, string apiGatewayEndpoint)
+    public async Task Broadcast(string payload, string apiGatewayEndpoint)
     {
         Logger.LogInformation("[Broadcaster] - Retrieving active connections...");
         List<Connection> connectionData = null;
@@ -37,7 +37,6 @@ public class WebsocketBroadcaster
             Logger.LogCritical(e.StackTrace);
         }
         
-        
         Logger.LogInformation("Retrieved active connections");
         Logger.LogInformation(connectionData);
         
@@ -46,7 +45,7 @@ public class WebsocketBroadcaster
             ServiceURL = apiGatewayEndpoint
         });
 
-        var messageBinary = UTF8Encoding.UTF8.GetBytes(JsonSerializer.Serialize(payload));
+        var messageBinary = UTF8Encoding.UTF8.GetBytes(payload);
 
         // Broadcast message parallel with concurrency limit to avoid API throttling
         var options = new ParallelOptions { MaxDegreeOfParallelism = 5 };
