@@ -22,11 +22,25 @@ public class WebsocketBroadcaster
 
     [Logging(LogEvent = true, Service = "websocketMessagingService")]
     [Metrics(Namespace = "websocket-chat")]
-    [Tracing(CaptureMode = TracingCaptureMode.ResponseAndError, Namespace = "websocket-chat")]
-    public async Task Broadcast(Payload payload, string apiGatewayEndpoint)
+    //[Tracing(CaptureMode = TracingCaptureMode.ResponseAndError, Namespace = "websocket-chat")]
+    public async Task Broadcast(Message payload, string apiGatewayEndpoint)
     {
         Logger.LogInformation("[Broadcaster] - Retrieving active connections...");
-        var connectionData = await _dbContext.ScanAsync<Connection>(Array.Empty<ScanCondition>()).GetRemainingAsync();
+        List<Connection> connectionData = null;
+        try
+        {
+            connectionData = await _dbContext.ScanAsync<Connection>(Array.Empty<ScanCondition>()).GetRemainingAsync();
+        }
+        catch (Exception e)
+        {
+            Logger.LogError($"Error retrieving connections: {e.Message}");
+            Logger.LogCritical(e.StackTrace);
+        }
+        
+        
+        Logger.LogInformation("Retrieved active connections");
+        Logger.LogInformation(connectionData);
+        
         var apiClient = new AmazonApiGatewayManagementApiClient(new AmazonApiGatewayManagementApiConfig
         {
             ServiceURL = apiGatewayEndpoint
