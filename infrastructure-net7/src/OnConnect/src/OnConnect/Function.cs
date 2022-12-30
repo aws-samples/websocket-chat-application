@@ -103,7 +103,7 @@ public class Function
     /// </summary>
     /// <param name="connection">Instance of Connection</param>
     /// <returns>A Task that can be used to poll or wait for results, or both.</returns>
-    [Tracing(SegmentName = "DynamoDB")]
+    //[Tracing(SegmentName = "DynamoDB")]
     private static async Task SaveRecordInDynamo(Connection connection)
     {
         try
