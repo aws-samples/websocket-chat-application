@@ -14,8 +14,8 @@ namespace Shared;
 
 public class WebsocketBroadcaster
 {
-    private readonly DynamoDBContext _dbContext;
-    public WebsocketBroadcaster(DynamoDBContext dbContext)
+    private readonly IDynamoDBContext _dbContext;
+    public WebsocketBroadcaster(IDynamoDBContext dbContext)
     {
         this._dbContext = dbContext;
     }
@@ -39,18 +39,21 @@ public class WebsocketBroadcaster
         
         Logger.LogInformation("Retrieved active connections");
         Logger.LogInformation(connectionData);
-        
-        var apiClient = new AmazonApiGatewayManagementApiClient(new AmazonApiGatewayManagementApiConfig
-        {
-            ServiceURL = apiGatewayEndpoint
-        });
 
+        Logger.LogInformation("Encoding payload to binary:");
         var messageBinary = UTF8Encoding.UTF8.GetBytes(payload);
+        Logger.LogInformation(messageBinary);
 
         // Broadcast message parallel with concurrency limit to avoid API throttling
         var options = new ParallelOptions { MaxDegreeOfParallelism = 5 };
         await Parallel.ForEachAsync(connectionData, options, async (item, token) =>
         {
+            Logger.LogInformation($"Broadcasting connection item: {item.connectionId} - {item.userId}");
+            var apiClient = new AmazonApiGatewayManagementApiClient(new AmazonApiGatewayManagementApiConfig
+            {
+                ServiceURL = apiGatewayEndpoint
+            });
+            Logger.LogInformation(apiClient);
             var stream = new MemoryStream(messageBinary);
             var postConnectionRequest = new PostToConnectionRequest
             {
