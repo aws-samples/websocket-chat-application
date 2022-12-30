@@ -74,15 +74,18 @@ public class Function
             if (verifiedToken != null)
             {
                 Logger.LogInformation($"Token has been verified successfully.");    
-                return GenerateAllow(verifiedToken.Claims.First(t=> t.Type == "cognito:username").Value, apigProxyEvent.MethodArn);
+                var policyResult = GenerateAllow(verifiedToken.Claims.First(t=> t.Type == "cognito:username").Value, apigProxyEvent.MethodArn);
+                Logger.LogInformation($"Generated policy: {policyResult}");
             }
             
+            Logger.LogInformation("Authorization failed. Returning Deny policy.");
             return GenerateDeny("default", apigProxyEvent.MethodArn);
         }
         catch (Exception e)
         {
             Logger.LogError(e.Message);
 
+            Logger.LogInformation("Authorization failed. Returning Deny policy.");
             return GenerateDeny("default", apigProxyEvent.MethodArn);
         }
     }
@@ -101,6 +104,7 @@ public class Function
     {
         var policyDocument = new APIGatewayCustomAuthorizerPolicy()
         {
+            Version = "2012-10-17",
             Statement = new List<APIGatewayCustomAuthorizerPolicy.IAMPolicyStatement>()
             {
                 new APIGatewayCustomAuthorizerPolicy.IAMPolicyStatement()
@@ -114,7 +118,8 @@ public class Function
         var response = new APIGatewayCustomAuthorizerResponse()
         {
             PrincipalID = principalId,
-            PolicyDocument = policyDocument
+            PolicyDocument = policyDocument,
+            Context = new APIGatewayCustomAuthorizerContextOutput()
         };
         return response;
     }

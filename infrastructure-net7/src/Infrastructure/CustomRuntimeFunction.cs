@@ -68,7 +68,33 @@ namespace Infrastructure
             {
                 Runtime = Runtime.PROVIDED_AL2,
                 Code = Code.FromAsset(mountPath, new Amazon.CDK.AWS.S3.Assets.AssetOptions
-                {
+                {   
+                    Exclude = new []{
+                        "**/.dockerignore",
+                        "**/.env",
+                        "**/.git",
+                        "**/.gitignore",
+                        "**/.project",
+                        "**/.settings",
+                        "**/.toolstarget",
+                        "**/.vs",
+                        "**/.vscode",
+                        "**/.idea",
+                        "**/*.*proj.user",
+                        "**/*.dbmdl",
+                        "**/*.jfm",
+                        "**/azds.yaml",
+                        "**/bin",
+                        "**/charts",
+                        "**/docker-compose*",
+                        "**/Dockerfile*",
+                        "**/node_modules",
+                        "**/npm-debug.log",
+                        "**/obj",
+                        "**/secrets.dev.yaml",
+                        "**/values.dev.yaml",
+                        "LICENSE",
+                        "README.md",},
                     Bundling = new BundlingOptions
                     {
                         Image = DockerImage.FromBuild("./"), // Dockerfile in {repo-root}/infrastructure-net7/
