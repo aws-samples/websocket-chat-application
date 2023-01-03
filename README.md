@@ -1,42 +1,33 @@
 # Serverless chat application using ApiGateway Websockets
-This project lets you provision a ready-to-use fully serverless real-time chat application using Amazon ApiGateway Websockets. The infrastructure code is using the [AWS Cloud Development Kit(AWS CDK)](https://aws.amazon.com/cdk/). The frontend is written using [Angular 12](https://angular.io/).
+This project lets you provision a ready-to-use fully serverless real-time chat application using Amazon ApiGateway Websockets. The infrastructure code is using the [AWS Cloud Development Kit(AWS CDK)](https://aws.amazon.com/cdk/) and implemented in both Typescript and NET7. The frontend is written using [Angular 12](https://angular.io/).
 
 ![](assets/chat_UI.png)
 
-## Features
+:warning: WARNING :warning: The NET7 implementation is still work-in-progress, however it should work as-is and has the same security features implemented as the Typescript version. Below you can find a breakdown of feature implementation state.
 
-- [x] "One-click" serverless deployment using [AWS CDK](https://aws.amazon.com/cdk/)
-- [x] Infrastructure is split into 6 interdependent stacks (Authorization, Database, REST API, Websocket API, Frontend, Observability)
-- [x] Secure HTTPS connection and content delivery using [Amazon Cloudfront](https://aws.amazon.com/cloudfront/)
-- [x] Built-in authentication using [Amazon Cognito](https://aws.amazon.com/cognito/)
-- [x] Built-in REST API authorization using Cognito UserPool Authorizer
-- [x] Synchronous real-time messaging using [API Gateway Websocket API](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html)
-- [x] Asynchronous user status updates using [Amazon SQS](https://aws.amazon.com/sqs/) and API Gateway Websocket API
-- [x] Environment-agnostic Single Page Application frontend (dynamic environment configuration loading)
-- [x] Complete request tracing using [AWS X-Ray](https://aws.amazon.com/xray/)
-- [x] Lambda Powertools integration *(beta)*
-- [x] Structured logging and monitoring using [Amazon Cloudwatch](https://aws.amazon.com/cloudwatch/)
-- [x] Custom metrics & Cloudwatch dashboard
-- [x] Built-in infrastructure security check using [CDK-NAG](https://github.com/cdklabs/cdk-nag)
+## Features
+| TS | NET7 | Feature description |
+| :---: | :---: | :--- |
+| :white_check_mark: | :white_check_mark: | "One-click" serverless deployment using [AWS CDK](https://aws.amazon.com/cdk/) | 
+| :white_check_mark: | :white_check_mark: | Infrastructure is split into 6 interdependent stacks (Authorization, Database, REST API, Websocket API, Frontend, Observability)
+| :white_check_mark: | :white_check_mark: | Secure HTTPS connection and content delivery using [Amazon Cloudfront](https://aws.amazon.com/cloudfront/)
+| :white_check_mark: | :white_check_mark: | Built-in authentication using [Amazon Cognito](https://aws.amazon.com/cognito/)
+| :white_check_mark: | :white_check_mark: | Built-in REST API authorization using Cognito UserPool Authorizer
+| :white_check_mark: | :white_check_mark: | Synchronous real-time messaging using [API Gateway Websocket API](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html)
+| :white_check_mark: | :white_check_mark: | Asynchronous user status updates using [Amazon SQS](https://aws.amazon.com/sqs/) and API Gateway Websocket API
+| :white_check_mark: | :white_check_mark: | Environment-agnostic Single Page Application frontend (dynamic environment configuration loading)
+| :white_check_mark: | :wrench: | Complete request tracing using [AWS X-Ray](https://aws.amazon.com/xray/)
+| :white_check_mark: | :wrench: | Lambda Powertools integration *(beta)*
+| :white_check_mark: | :white_check_mark: | Structured logging and monitoring using [Amazon Cloudwatch](https://aws.amazon.com/cloudwatch/)
+| :white_check_mark: | :wrench: | Custom metrics & Cloudwatch dashboard
+| :white_check_mark: | :x: | Built-in infrastructure security check using [CDK-NAG](https://github.com/cdklabs/cdk-nag)
+
 
 ## Solution Overview
 ![](assets/websocket_chat.png)
 
 ## Project structure
-    
-    ├── infrastructure                      # Infrastructure code via CDK(Typescript).
-    │   ├── bin                             # CDK App - Deploys the stacks  
-    │   ├── lib                             #
-    |   |   ├── auth-stack.ts               # Contains the Cognito Userpool
-    |   |   ├── database-stack.ts           # DynamoDB table definitions
-    |   |   ├── frontend-stack.ts           # Cloudfront distribution, S3 bucket for static hosting and additional resources
-    |   |   ├── rest-api-stack.ts           # ApiGateway REST API to support the frontend application
-    |   |   ├── websocket-stack.ts          # ApiGateway Websocket API for real-time communication
-    |   |   ├── observability-stack.ts      # CloudWatch Dashboard with custom metrics
-    ├── UI                                  # Angular 12 Single Page Application (SPA)
-    └── ...
-
-The `cdk.json` file inside `infrastructure` directory tells the CDK Toolkit how to execute your app.
+The infrastructure backend has been split into two directories (`infrastructure-ts`, `infrastructure-net`). These folders contain language-specific implementations for *both* the AWS CDK code and the lambda handlers. Please read the Readme file in the relevant directory for specific deployment instructions.
 
 ## Prerequisites
 
@@ -44,6 +35,7 @@ The `cdk.json` file inside `infrastructure` directory tells the CDK Toolkit how 
 - [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html) installed and configured with the aws account you want to use.
 - [docker](https://docs.docker.com/get-docker/) installed and is up and running locally (required for the lambda function builds).
 - [Angular CLI](https://angular.io/cli) installed.
+- [dotnetcore3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1) installed (for the NET7 infrastructure version)
 
 ## Security considerations
 For the sake of this demo, **not all security features are enabled** to save cost and effort of setting up a working PoC. 
@@ -57,31 +49,10 @@ Below you can find a list of security recommendations in case you would like to 
 ## Getting started
 ### Deployment
 
-- Change directory to where infrastructure code lives.
-```bash
-    cd infrastructure
-```
+For language specific instructions, please check the readme file in the related infrastructure directory.
 
-- Restore NPM packages for the project
-```bash
-    npm install
-```
-
-- Bootstrap your AWS account as it's required for the automated Docker image build and deployment
-```bash
-    cdk bootstrap aws://{ACCOUNT_ID}/{REGION}
-```
-
-- Synthesize the cdk stack to emits the synthesized CloudFormation template. Set up will make sure to build and package 
-  the lambda functions residing in the [handlers](/infrastructure/resources/handlers) directory.
-```bash
-    cdk synth
-```
-
-- Deploy the CDK application
-```bash
-    cdk deploy --all
-```
+- [Typescript](./infrastructure-ts/README.md)
+- [NET7](./infrastructure-net7/README.md)
 
 ### [Optional] - Building the frontend
 - Change directory to where UI code lives.
@@ -101,7 +72,7 @@ Below you can find a list of security recommendations in case you would like to 
 The chat application's URL will be found at the Frontend stack's output. Open the Cloudfront Distribution's URL in your browser, where you'll be redirected to the Cognito login/singup page. 
 
 ### Cleanup
-Run the following command to delete the infrastructure stacks:
+Run the following command in the relevant infrastructure directory to delete the cloudformation stacks:
 ```bash
     cdk destroy --all
 ```
@@ -115,7 +86,7 @@ The backend outputs 3 custom metrics from the websocket API backend:
 * Closed Connections
 * Messages Delivered
 
-The [Observability Stack](/infrastructure/lib/observability-stack.ts) creates a custom Cloudwatch Dashboard where these metrics are visualised.
+The **Observability Stack** ([TS](./infrastructure-ts/lib/observability-stack.ts) / [NET7](./infrastructure-net7/src/Infrastructure/Stacks/ObservabilityStack.cs)) creates a custom Cloudwatch Dashboard where these metrics are visualised.
 
 ![](assets/dashboard.png)
 
@@ -126,7 +97,7 @@ Requests are automatically traced and instrumented using [AWS X-Ray](https://aws
 
 
 ## API Handler documentation
-You can find a more detailed description of what the API handler functions are doing [here](/infrastructure/resources/handlers/README.md).
+You can find a more detailed description of what the API handler functions are doing [here](/infrastructure-ts/resources/handlers/README.md).
 
 ## Found an issue? Anything to add?
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
