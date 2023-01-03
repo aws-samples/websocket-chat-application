@@ -1,8 +1,53 @@
 # Welcome to your CDK C# project!
 
+## Project structure
+    
+    ├── infrastructure                      # Infrastructure code via CDK(Typescript).
+    │   ├── bin                             # CDK App - Deploys the stacks  
+    │   ├── lib                             #
+    |   |   ├── auth-stack.ts               # Contains the Cognito Userpool
+    |   |   ├── database-stack.ts           # DynamoDB table definitions
+    |   |   ├── frontend-stack.ts           # Cloudfront distribution, S3 bucket for static hosting and additional resources
+    |   |   ├── rest-api-stack.ts           # ApiGateway REST API to support the frontend application
+    |   |   ├── websocket-stack.ts          # ApiGateway Websocket API for real-time communication
+    |   |   ├── observability-stack.ts      # CloudWatch Dashboard with custom metrics
+    ├── UI                                  # Angular 12 Single Page Application (SPA)
+    └── ...
+
+The `cdk.json` file inside `infrastructure` directory tells the CDK Toolkit how to execute your app.
+
 This is a blank project for CDK development with C#.
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
+
+### Deployment
+
+- Change directory to where infrastructure code lives.
+```bash
+    cd infrastructure
+```
+
+- Restore NPM packages for the project
+```bash
+    npm install
+```
+
+- Bootstrap your AWS account as it's required for the automated Docker image build and deployment
+```bash
+    cdk bootstrap aws://{ACCOUNT_ID}/{REGION}
+```
+
+- Synthesize the cdk stack to emits the synthesized CloudFormation template. Set up will make sure to build and package 
+  the lambda functions residing in the [handlers](/infrastructure/resources/handlers) directory.
+```bash
+    cdk synth
+```
+
+- Deploy the CDK application
+```bash
+    cdk deploy --all
+```
+
 
 It uses the [.NET Core CLI](https://docs.microsoft.com/dotnet/articles/core/) to compile and execute your project.
 

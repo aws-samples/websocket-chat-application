@@ -2,6 +2,22 @@
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
+## Project structure
+    
+    ├── infrastructure                      # Infrastructure code via CDK(Typescript).
+    │   ├── bin                             # CDK App - Deploys the stacks  
+    │   ├── lib                             #
+    |   |   ├── auth-stack.ts               # Contains the Cognito Userpool
+    |   |   ├── database-stack.ts           # DynamoDB table definitions
+    |   |   ├── frontend-stack.ts           # Cloudfront distribution, S3 bucket for static hosting and additional resources
+    |   |   ├── rest-api-stack.ts           # ApiGateway REST API to support the frontend application
+    |   |   ├── websocket-stack.ts          # ApiGateway Websocket API for real-time communication
+    |   |   ├── observability-stack.ts      # CloudWatch Dashboard with custom metrics
+    ├── UI                                  # Angular 12 Single Page Application (SPA)
+    └── ...
+
+The `cdk.json` file inside `infrastructure` directory tells the CDK Toolkit how to execute your app.
+
 ### Deployment
 
 - Change directory to where infrastructure code lives.

@@ -5,19 +5,19 @@ This project lets you provision a ready-to-use fully serverless real-time chat a
 
 ## Features
 
-- [x] "One-click" serverless deployment using [AWS CDK](https://aws.amazon.com/cdk/)
-- [x] Infrastructure is split into 6 interdependent stacks (Authorization, Database, REST API, Websocket API, Frontend, Observability)
-- [x] Secure HTTPS connection and content delivery using [Amazon Cloudfront](https://aws.amazon.com/cloudfront/)
-- [x] Built-in authentication using [Amazon Cognito](https://aws.amazon.com/cognito/)
-- [x] Built-in REST API authorization using Cognito UserPool Authorizer
-- [x] Synchronous real-time messaging using [API Gateway Websocket API](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html)
-- [x] Asynchronous user status updates using [Amazon SQS](https://aws.amazon.com/sqs/) and API Gateway Websocket API
-- [x] Environment-agnostic Single Page Application frontend (dynamic environment configuration loading)
-- [x] Complete request tracing using [AWS X-Ray](https://aws.amazon.com/xray/)
-- [x] Lambda Powertools integration *(beta)*
-- [x] Structured logging and monitoring using [Amazon Cloudwatch](https://aws.amazon.com/cloudwatch/)
-- [x] Custom metrics & Cloudwatch dashboard
-- [x] Built-in infrastructure security check using [CDK-NAG](https://github.com/cdklabs/cdk-nag)
+- TS :white_check_mark: NET7 :x: "One-click" serverless deployment using [AWS CDK](https://aws.amazon.com/cdk/)
+- TS[x] Infrastructure is split into 6 interdependent stacks (Authorization, Database, REST API, Websocket API, Frontend, Observability)
+- TS[x] Secure HTTPS connection and content delivery using [Amazon Cloudfront](https://aws.amazon.com/cloudfront/)
+- TS[x] Built-in authentication using [Amazon Cognito](https://aws.amazon.com/cognito/)
+- TS[x] Built-in REST API authorization using Cognito UserPool Authorizer
+- TS[x] Synchronous real-time messaging using [API Gateway Websocket API](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html)
+- TS[x] Asynchronous user status updates using [Amazon SQS](https://aws.amazon.com/sqs/) and API Gateway Websocket API
+- TS[x] Environment-agnostic Single Page Application frontend (dynamic environment configuration loading)
+- TS[x] Complete request tracing using [AWS X-Ray](https://aws.amazon.com/xray/)
+- TS[x] Lambda Powertools integration *(beta)*
+- TS[x] Structured logging and monitoring using [Amazon Cloudwatch](https://aws.amazon.com/cloudwatch/)
+- TS[x] Custom metrics & Cloudwatch dashboard
+- TS[x] Built-in infrastructure security check using [CDK-NAG](https://github.com/cdklabs/cdk-nag)
 
 ## Solution Overview
 ![](assets/websocket_chat.png)
@@ -44,6 +44,7 @@ The `cdk.json` file inside `infrastructure` directory tells the CDK Toolkit how 
 - [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html) installed and configured with the aws account you want to use.
 - [docker](https://docs.docker.com/get-docker/) installed and is up and running locally (required for the lambda function builds).
 - [Angular CLI](https://angular.io/cli) installed.
+- [dotnetcore3.1] (https://dotnet.microsoft.com/download/dotnet-core/3.1)
 
 ## Security considerations
 For the sake of this demo, **not all security features are enabled** to save cost and effort of setting up a working PoC. 
@@ -57,31 +58,10 @@ Below you can find a list of security recommendations in case you would like to 
 ## Getting started
 ### Deployment
 
-- Change directory to where infrastructure code lives.
-```bash
-    cd infrastructure
-```
+For language specific instructions, please check the readme file in the related infrastructure directory.
 
-- Restore NPM packages for the project
-```bash
-    npm install
-```
-
-- Bootstrap your AWS account as it's required for the automated Docker image build and deployment
-```bash
-    cdk bootstrap aws://{ACCOUNT_ID}/{REGION}
-```
-
-- Synthesize the cdk stack to emits the synthesized CloudFormation template. Set up will make sure to build and package 
-  the lambda functions residing in the [handlers](/infrastructure/resources/handlers) directory.
-```bash
-    cdk synth
-```
-
-- Deploy the CDK application
-```bash
-    cdk deploy --all
-```
+- [Typescript](./infrastructure-ts/README.md)
+- [NET7](./infrastructure-net7/README.md)
 
 ### [Optional] - Building the frontend
 - Change directory to where UI code lives.
@@ -115,7 +95,7 @@ The backend outputs 3 custom metrics from the websocket API backend:
 * Closed Connections
 * Messages Delivered
 
-The [Observability Stack](/infrastructure/lib/observability-stack.ts) creates a custom Cloudwatch Dashboard where these metrics are visualised.
+The **Observability Stack** ([TS](./infrastructure-ts/lib/observability-stack.ts) / [NET7](./infrastructure-net7/src/Infrastructure/Stacks/ObservabilityStack.cs)) creates a custom Cloudwatch Dashboard where these metrics are visualised.
 
 ![](assets/dashboard.png)
 
@@ -126,7 +106,7 @@ Requests are automatically traced and instrumented using [AWS X-Ray](https://aws
 
 
 ## API Handler documentation
-You can find a more detailed description of what the API handler functions are doing [here](/infrastructure/resources/handlers/README.md).
+You can find a more detailed description of what the API handler functions are doing [here](/infrastructure-ts/resources/handlers/README.md).
 
 ## Found an issue? Anything to add?
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
