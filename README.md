@@ -6,7 +6,7 @@ This project lets you provision a ready-to-use fully serverless real-time chat a
 ## Features
 | TS | NET7 | Feature description |
 | --- | --- | --- |
-|TS :white_check_mark: | NET7 :x:| "One-click" serverless deployment using [AWS CDK](https://aws.amazon.com/cdk/) | 
+| :white_check_mark: | :x: | "One-click" serverless deployment using [AWS CDK](https://aws.amazon.com/cdk/) | 
 
 
 - TS :white_check_mark: NET7 :x: "One-click" serverless deployment using [AWS CDK](https://aws.amazon.com/cdk/)
