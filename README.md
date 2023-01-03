@@ -1,46 +1,31 @@
 # Serverless chat application using ApiGateway Websockets
-This project lets you provision a ready-to-use fully serverless real-time chat application using Amazon ApiGateway Websockets. The infrastructure code is using the [AWS Cloud Development Kit(AWS CDK)](https://aws.amazon.com/cdk/). The frontend is written using [Angular 12](https://angular.io/).
+This project lets you provision a ready-to-use fully serverless real-time chat application using Amazon ApiGateway Websockets. The infrastructure code is using the [AWS Cloud Development Kit(AWS CDK)](https://aws.amazon.com/cdk/) and implemented in both Typescript and NET7. The frontend is written using [Angular 12](https://angular.io/).
 
 ![](assets/chat_UI.png)
 
 ## Features
 | TS | NET7 | Feature description |
-| --- | --- | --- |
-| :white_check_mark: | :x: | "One-click" serverless deployment using [AWS CDK](https://aws.amazon.com/cdk/) | 
+| :---: | :---: | :--- |
+| :white_check_mark: | :white_check_mark: | "One-click" serverless deployment using [AWS CDK](https://aws.amazon.com/cdk/) | 
+| :white_check_mark: | :white_check_mark: | Infrastructure is split into 6 interdependent stacks (Authorization, Database, REST API, Websocket API, Frontend, Observability)
+| :white_check_mark: | :white_check_mark: | Secure HTTPS connection and content delivery using [Amazon Cloudfront](https://aws.amazon.com/cloudfront/)
+| :white_check_mark: | :white_check_mark: | Built-in authentication using [Amazon Cognito](https://aws.amazon.com/cognito/)
+| :white_check_mark: | :white_check_mark: | Built-in REST API authorization using Cognito UserPool Authorizer
+| :white_check_mark: | :white_check_mark: | Synchronous real-time messaging using [API Gateway Websocket API](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html)
+| :white_check_mark: | :white_check_mark: | Asynchronous user status updates using [Amazon SQS](https://aws.amazon.com/sqs/) and API Gateway Websocket API
+| :white_check_mark: | :white_check_mark: | Environment-agnostic Single Page Application frontend (dynamic environment configuration loading)
+| :white_check_mark: | :x: | Complete request tracing using [AWS X-Ray](https://aws.amazon.com/xray/)
+| :white_check_mark: | :wrench: | Lambda Powertools integration *(beta)*
+| :white_check_mark: | :white_check_mark: | Structured logging and monitoring using [Amazon Cloudwatch](https://aws.amazon.com/cloudwatch/)
+| :white_check_mark: | :wrench: | Custom metrics & Cloudwatch dashboard
+| :white_check_mark: | :x: | Built-in infrastructure security check using [CDK-NAG](https://github.com/cdklabs/cdk-nag)
 
-
-- TS :white_check_mark: NET7 :x: "One-click" serverless deployment using [AWS CDK](https://aws.amazon.com/cdk/)
-- TS[x] Infrastructure is split into 6 interdependent stacks (Authorization, Database, REST API, Websocket API, Frontend, Observability)
-- TS[x] Secure HTTPS connection and content delivery using [Amazon Cloudfront](https://aws.amazon.com/cloudfront/)
-- TS[x] Built-in authentication using [Amazon Cognito](https://aws.amazon.com/cognito/)
-- TS[x] Built-in REST API authorization using Cognito UserPool Authorizer
-- TS[x] Synchronous real-time messaging using [API Gateway Websocket API](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html)
-- TS[x] Asynchronous user status updates using [Amazon SQS](https://aws.amazon.com/sqs/) and API Gateway Websocket API
-- TS[x] Environment-agnostic Single Page Application frontend (dynamic environment configuration loading)
-- TS[x] Complete request tracing using [AWS X-Ray](https://aws.amazon.com/xray/)
-- TS[x] Lambda Powertools integration *(beta)*
-- TS[x] Structured logging and monitoring using [Amazon Cloudwatch](https://aws.amazon.com/cloudwatch/)
-- TS[x] Custom metrics & Cloudwatch dashboard
-- TS[x] Built-in infrastructure security check using [CDK-NAG](https://github.com/cdklabs/cdk-nag)
 
 ## Solution Overview
 ![](assets/websocket_chat.png)
 
 ## Project structure
-    
-    ├── infrastructure                      # Infrastructure code via CDK(Typescript).
-    │   ├── bin                             # CDK App - Deploys the stacks  
-    │   ├── lib                             #
-    |   |   ├── auth-stack.ts               # Contains the Cognito Userpool
-    |   |   ├── database-stack.ts           # DynamoDB table definitions
-    |   |   ├── frontend-stack.ts           # Cloudfront distribution, S3 bucket for static hosting and additional resources
-    |   |   ├── rest-api-stack.ts           # ApiGateway REST API to support the frontend application
-    |   |   ├── websocket-stack.ts          # ApiGateway Websocket API for real-time communication
-    |   |   ├── observability-stack.ts      # CloudWatch Dashboard with custom metrics
-    ├── UI                                  # Angular 12 Single Page Application (SPA)
-    └── ...
-
-The `cdk.json` file inside `infrastructure` directory tells the CDK Toolkit how to execute your app.
+The infrastructure backend has been split into two directories (`infrastructure-ts`, `infrastructure-net`). These folders contain language-specific implementations for *both* the AWS CDK code and the lambda handlers. Please read the Readme file in the relevant directory for specific deployment instructions.
 
 ## Prerequisites
 
@@ -85,7 +70,7 @@ For language specific instructions, please check the readme file in the related 
 The chat application's URL will be found at the Frontend stack's output. Open the Cloudfront Distribution's URL in your browser, where you'll be redirected to the Cognito login/singup page. 
 
 ### Cleanup
-Run the following command to delete the infrastructure stacks:
+Run the following command in the relevant infrastructure directory to delete the cloudformation stacks:
 ```bash
     cdk destroy --all
 ```
