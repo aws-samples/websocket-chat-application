@@ -4,6 +4,10 @@ This project lets you provision a ready-to-use fully serverless real-time chat a
 ![](assets/chat_UI.png)
 
 ## Features
+| TS | NET7 | Feature description |
+| --- | --- | --- |
+|TS :white_check_mark: | NET7 :x:| "One-click" serverless deployment using [AWS CDK](https://aws.amazon.com/cdk/) | 
+
 
 - TS :white_check_mark: NET7 :x: "One-click" serverless deployment using [AWS CDK](https://aws.amazon.com/cdk/)
 - TS[x] Infrastructure is split into 6 interdependent stacks (Authorization, Database, REST API, Websocket API, Frontend, Observability)
