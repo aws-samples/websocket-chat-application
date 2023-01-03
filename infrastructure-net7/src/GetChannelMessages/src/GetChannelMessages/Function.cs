@@ -18,9 +18,9 @@ namespace GetChannelMessages;
 
 public class Function
 {
-    public static string? MessagesTableName => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.MessagesTableName);
+    private static string? MessagesTableName => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.MessagesTableName);
     private static readonly DynamoDBContext _dynamoDbContext;
-
+    
     static Function()
     {
         AWSSDKHandler.RegisterXRayForAllServices();
@@ -29,7 +29,11 @@ public class Function
         {
             AWSConfigsDynamoDB.Context.TypeMappings[typeof(Message)] =
                 new Amazon.Util.TypeMapping(typeof(Message), MessagesTableName);
-        }//TODO: throw error if env variables are not present
+        }
+        else
+        {
+            throw new ArgumentException($"Missing ENV variable: {Constants.EnvironmentVariables.MessagesTableName}");
+        }
 
         var config = new DynamoDBContextConfig { Conversion = DynamoDBEntryConversion.V2 };
         _dynamoDbContext = new DynamoDBContext(new AmazonDynamoDBClient(), config);

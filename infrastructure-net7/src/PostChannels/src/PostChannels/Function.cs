@@ -17,7 +17,7 @@ namespace PostChannels;
 
 public class Function
 {
-    public static string? ChannelsTableName => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.ChannelsTableName);
+    private static string? ChannelsTableName => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.ChannelsTableName);
     private static readonly DynamoDBContext _dynamoDbContext;
 
     static Function()
@@ -28,7 +28,11 @@ public class Function
         {
             AWSConfigsDynamoDB.Context.TypeMappings[typeof(Channel)] =
                 new Amazon.Util.TypeMapping(typeof(Channel), ChannelsTableName);
-        }//TODO: throw error if env variables are not present
+        }
+        else
+        {
+            throw new ArgumentException($"Missing ENV variable: {Constants.EnvironmentVariables.ChannelsTableName}");
+        }
 
         var config = new DynamoDBContextConfig { Conversion = DynamoDBEntryConversion.V2 };
         _dynamoDbContext = new DynamoDBContext(new AmazonDynamoDBClient(), config);
@@ -58,10 +62,13 @@ public class Function
 
         Logger.LogInformation("Lambda has been invoked successfully.");
         var channel = JsonSerializer.Deserialize<Channel>(apigProxyEvent.Body);
-        Logger.LogInformation($"POST data: {channel}");
-        
+
         try
         {
+            if (channel == null)
+                throw new Exception(
+                    "Could not deserialize Channel object! Check ApiGW Proxy event for payload details.");
+            
             await _dynamoDbContext.SaveAsync(channel);
             Logger.LogInformation("Channel saved to DynamoDB");
  

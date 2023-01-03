@@ -18,8 +18,8 @@ namespace OnDisconnect;
 
 public class Function
 {
-    public static string? StatusQueueUrl => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.StatusQueueUrl);
-    public static string? ConnectionsTableName => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.ConnectionsTableName);
+    private static string? StatusQueueUrl => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.StatusQueueUrl);
+    private static string? ConnectionsTableName => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.ConnectionsTableName);
 
     private static DynamoDBContext _dynamoDbContext;
     private static AmazonSQSClient _sqsClient = new();
@@ -27,12 +27,21 @@ public class Function
     {
         AWSSDKHandler.RegisterXRayForAllServices();
         
+        if(string.IsNullOrEmpty(StatusQueueUrl))
+        {
+            throw new ArgumentException($"Missing ENV variable: {Constants.EnvironmentVariables.StatusQueueUrl}");
+        }
+        
         if (!string.IsNullOrEmpty(ConnectionsTableName))
         {
             AWSConfigsDynamoDB.Context.TypeMappings[typeof(Connection)] =
                 new Amazon.Util.TypeMapping(typeof(Connection), ConnectionsTableName);
         }
-        
+        else
+        {
+            throw new ArgumentException($"Missing ENV variable: {Constants.EnvironmentVariables.ConnectionsTableName}");
+        }
+
         var config = new DynamoDBContextConfig { Conversion = DynamoDBEntryConversion.V2 };
         _dynamoDbContext = new DynamoDBContext(new AmazonDynamoDBClient(), config);
     }

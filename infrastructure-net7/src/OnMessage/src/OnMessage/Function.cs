@@ -6,7 +6,6 @@ using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.RuntimeSupport;
 using Amazon.Lambda.Serialization.SystemTextJson;
-using Amazon.SQS;
 using Amazon.XRay.Recorder.Handlers.AwsSdk;
 using AWS.Lambda.Powertools.Logging;
 using AWS.Lambda.Powertools.Metrics;
@@ -18,25 +17,35 @@ namespace OnMessage;
 
 public class Function
 {
-    public static string? MessagesTableName => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.MessagesTableName);
-    public static string? ConnectionsTableName => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.ConnectionsTableName);
+    private static string? MessagesTableName => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.MessagesTableName);
+    private static string? ConnectionsTableName => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.ConnectionsTableName);
 
     private static readonly DynamoDBContext _dynamoDbContext;
-    private static AmazonSQSClient _sqsClient = new();
     private static readonly WebsocketBroadcaster _websocketBroadcaster;
     
     static Function()
     {
         AWSSDKHandler.RegisterXRayForAllServices();
         
-        if (!string.IsNullOrEmpty(MessagesTableName) && !string.IsNullOrEmpty(ConnectionsTableName))
+        if (!string.IsNullOrEmpty(MessagesTableName))
         {
             AWSConfigsDynamoDB.Context.TypeMappings[typeof(Message)] =
                 new Amazon.Util.TypeMapping(typeof(Message), MessagesTableName);
-            
+        }
+        else
+        {
+            throw new ArgumentException($"Missing ENV variable: {Constants.EnvironmentVariables.MessagesTableName}");
+        }
+        
+        if (string.IsNullOrEmpty(ConnectionsTableName))
+        {
             AWSConfigsDynamoDB.Context.TypeMappings[typeof(Connection)] =
                 new Amazon.Util.TypeMapping(typeof(Connection), ConnectionsTableName);
-        }//TODO: throw error if env variables are not present
+        }
+        else
+        {
+            throw new ArgumentException($"Missing ENV variable: {Constants.EnvironmentVariables.ConnectionsTableName}");
+        }
 
         var config = new DynamoDBContextConfig { Conversion = DynamoDBEntryConversion.V2 };
         _dynamoDbContext = new DynamoDBContext(new AmazonDynamoDBClient(), config);

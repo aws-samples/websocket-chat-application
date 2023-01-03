@@ -19,8 +19,8 @@ namespace GetUsers;
 
 public class Function
 {
-    public static string? ConnectionsTableName => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.ConnectionsTableName);
-    public static string? CognitoUserPoolId => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.CognitoUserPoolId);
+    private static string? ConnectionsTableName => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.ConnectionsTableName);
+    private static string? CognitoUserPoolId => Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.CognitoUserPoolId);
 
     private static readonly DynamoDBContext _dynamoDbContext;
 
@@ -32,7 +32,15 @@ public class Function
         {
             AWSConfigsDynamoDB.Context.TypeMappings[typeof(Connection)] =
                 new Amazon.Util.TypeMapping(typeof(Connection), ConnectionsTableName);
-        }//TODO: throw error if env variables are not present
+        } else
+        {
+            throw new ArgumentException($"Missing ENV variable: {Constants.EnvironmentVariables.ConnectionsTableName}");
+        }
+
+        if (string.IsNullOrEmpty(CognitoUserPoolId))
+        {
+            throw new ArgumentException($"Missing ENV variable: {Constants.EnvironmentVariables.CognitoUserPoolId}");
+        }
 
         var config = new DynamoDBContextConfig { Conversion = DynamoDBEntryConversion.V2 };
         _dynamoDbContext = new DynamoDBContext(new AmazonDynamoDBClient(), config);
@@ -74,8 +82,7 @@ public class Function
                 UserPoolId = CognitoUserPoolId
             });
             
-
-            // Merge list into response format
+            // Merge list of users into response format
             var userList = new List<User>();
             foreach (var user in users.Users)
             {
