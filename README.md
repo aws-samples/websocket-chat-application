@@ -3,6 +3,8 @@ This project lets you provision a ready-to-use fully serverless real-time chat a
 
 ![](assets/chat_UI.png)
 
+:warning: WARNING :warning: The NET7 implementation is still work-in-progress, however it should work as-is and has the same security features implemented as the Typescript version. Below you can find a breakdown of feature implementation state.
+
 ## Features
 | TS | NET7 | Feature description |
 | :---: | :---: | :--- |
@@ -14,7 +16,7 @@ This project lets you provision a ready-to-use fully serverless real-time chat a
 | :white_check_mark: | :white_check_mark: | Synchronous real-time messaging using [API Gateway Websocket API](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html)
 | :white_check_mark: | :white_check_mark: | Asynchronous user status updates using [Amazon SQS](https://aws.amazon.com/sqs/) and API Gateway Websocket API
 | :white_check_mark: | :white_check_mark: | Environment-agnostic Single Page Application frontend (dynamic environment configuration loading)
-| :white_check_mark: | :x: | Complete request tracing using [AWS X-Ray](https://aws.amazon.com/xray/)
+| :white_check_mark: | :wrench: | Complete request tracing using [AWS X-Ray](https://aws.amazon.com/xray/)
 | :white_check_mark: | :wrench: | Lambda Powertools integration *(beta)*
 | :white_check_mark: | :white_check_mark: | Structured logging and monitoring using [Amazon Cloudwatch](https://aws.amazon.com/cloudwatch/)
 | :white_check_mark: | :wrench: | Custom metrics & Cloudwatch dashboard
@@ -33,7 +35,7 @@ The infrastructure backend has been split into two directories (`infrastructure-
 - [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html) installed and configured with the aws account you want to use.
 - [docker](https://docs.docker.com/get-docker/) installed and is up and running locally (required for the lambda function builds).
 - [Angular CLI](https://angular.io/cli) installed.
-- [dotnetcore3.1] (https://dotnet.microsoft.com/download/dotnet-core/3.1)
+- [dotnetcore3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1) installed (for the NET7 infrastructure version)
 
 ## Security considerations
 For the sake of this demo, **not all security features are enabled** to save cost and effort of setting up a working PoC. 

@@ -4,7 +4,7 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
 ## Project structure
     
-    ├── infrastructure                      # Infrastructure code via CDK(Typescript).
+    ├── infrastructure-ts                   # Infrastructure code via CDK(Typescript).
     │   ├── bin                             # CDK App - Deploys the stacks  
     │   ├── lib                             #
     |   |   ├── auth-stack.ts               # Contains the Cognito Userpool
@@ -16,14 +16,8 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
     ├── UI                                  # Angular 12 Single Page Application (SPA)
     └── ...
 
-The `cdk.json` file inside `infrastructure` directory tells the CDK Toolkit how to execute your app.
 
 ### Deployment
-
-- Change directory to where infrastructure code lives.
-```bash
-    cd infrastructure
-```
 
 - Restore NPM packages for the project
 ```bash
