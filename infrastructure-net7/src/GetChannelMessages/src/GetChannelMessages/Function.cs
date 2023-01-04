@@ -55,7 +55,7 @@ public class Function
     
     [Logging(LogEvent = true, Service = "websocketMessagingService")]
     [Metrics(CaptureColdStart = true, Namespace = "websocket-chat")]
-    //[Tracing(CaptureMode = TracingCaptureMode.ResponseAndError, Namespace = "websocket-chat")]
+    [Tracing(CaptureMode = TracingCaptureMode.ResponseAndError, Namespace = "websocket-chat")]
     public static async Task<APIGatewayProxyResponse> FunctionHandler(APIGatewayProxyRequest apigProxyEvent, ILambdaContext context)
     {
         Logger.LogInformation(new Dictionary<string, object>{{ "Lambda context", context }});
@@ -65,6 +65,13 @@ public class Function
 
         var channelId = apigProxyEvent.PathParameters["id"];
         Logger.LogInformation($"Channel id: {channelId}");
+        
+        // Trace Fluent API
+        Tracing.WithSubsegment("ChannelRequest",
+            subsegment =>
+            {
+                subsegment.AddAnnotation("ChannelId", channelId);
+            });
         
         try
         {
