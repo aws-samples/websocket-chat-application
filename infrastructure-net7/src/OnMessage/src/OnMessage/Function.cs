@@ -37,7 +37,7 @@ public class Function
             throw new ArgumentException($"Missing ENV variable: {Constants.EnvironmentVariables.MessagesTableName}");
         }
         
-        if (string.IsNullOrEmpty(ConnectionsTableName))
+        if (!string.IsNullOrEmpty(ConnectionsTableName))
         {
             AWSConfigsDynamoDB.Context.TypeMappings[typeof(Connection)] =
                 new Amazon.Util.TypeMapping(typeof(Connection), ConnectionsTableName);
