@@ -72,7 +72,7 @@ public class Function
     public static async Task<APIGatewayProxyResponse> FunctionHandler(APIGatewayProxyRequest apigProxyEvent, ILambdaContext context)
     {
         Logger.LogInformation(new Dictionary<string, object>{{ "Lambda context", context }});
-        var response = new APIGatewayProxyResponse { StatusCode = 200, Body = "" };
+        var response = new APIGatewayProxyResponse { StatusCode = 200, Body = "OK" };
 
         Logger.LogInformation("Lambda has been invoked successfully.");
         
