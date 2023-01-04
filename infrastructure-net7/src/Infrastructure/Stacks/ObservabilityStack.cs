@@ -17,7 +17,7 @@ namespace Infrastructure.Stacks
                 Statistic = "sum"
             });
             
-            var newcConnectionsMetric = new Metric(new MetricProps()
+            var newConnectionsMetric = new Metric(new MetricProps()
             {
                 Namespace = "websocket-chat",
                 MetricName = "newConnection",
@@ -47,7 +47,7 @@ namespace Infrastructure.Stacks
             {
                 Title = "New Connections",
                 Width = 12,
-                Left = new[]{ disconnectionsMetric.With(new MetricOptions()
+                Left = new[]{ newConnectionsMetric.With(new MetricOptions()
                 {
                     Color = Color.GREEN
                 })}
@@ -57,7 +57,7 @@ namespace Infrastructure.Stacks
             {
                 Title = "Messages Delivered",
                 Width = 24,
-                Left = new[]{ disconnectionsMetric.With(new MetricOptions()
+                Left = new[]{ messagesDeliveredMetric.With(new MetricOptions()
                 {
                     Color = Color.GREEN
                 })}
