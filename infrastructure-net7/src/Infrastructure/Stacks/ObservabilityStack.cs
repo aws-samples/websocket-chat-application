@@ -13,6 +13,7 @@ namespace Infrastructure.Stacks
             var disconnectionsMetric = new Metric(new MetricProps()
             {
                 Namespace = "websocket-chat",
+                
                 MetricName = "closedConnection",
                 Statistic = "sum"
             });
