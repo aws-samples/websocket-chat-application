@@ -62,7 +62,7 @@ public class Function
     
     [Logging(LogEvent = true, Service = "websocketMessagingService")]
     [Metrics(CaptureColdStart = true, Namespace = "websocket-chat")]
-    //[Tracing(CaptureMode = TracingCaptureMode.ResponseAndError, Namespace = "websocket-chat")]
+    [Tracing(CaptureMode = TracingCaptureMode.ResponseAndError, Namespace = "websocket-chat")]
     public static async Task<APIGatewayProxyResponse> FunctionHandler(APIGatewayProxyRequest apigProxyEvent, ILambdaContext context)
     {
         Logger.LogInformation(new Dictionary<string, object>{{ "Lambda context", context }});
@@ -89,7 +89,7 @@ public class Function
             await _dynamoDbContext?.DeleteAsync(connectionItem)!;
 
             Metrics.AddMetric("closedConnection", 1, MetricUnit.Count);
-            
+
             return response;
         }
         catch (Exception e)
