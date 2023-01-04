@@ -20,8 +20,8 @@ public class WebsocketBroadcaster
     }
 
     [Logging(LogEvent = true, Service = "websocketMessagingService")]
-    [Metrics(Namespace = "websocket-chat")]
-    [Tracing(CaptureMode = TracingCaptureMode.ResponseAndError, Namespace = "websocket-chat")]
+    //[Metrics(Namespace = "websocket-chat")]
+    //[Tracing(CaptureMode = TracingCaptureMode.ResponseAndError, Namespace = "websocket-chat")]
     public async Task Broadcast(string payload, string apiGatewayEndpoint)
     {
         Logger.LogInformation("[Broadcaster] - Retrieving active connections...");
