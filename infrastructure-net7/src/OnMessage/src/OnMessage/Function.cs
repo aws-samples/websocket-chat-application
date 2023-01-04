@@ -37,7 +37,7 @@ public class Function
             throw new ArgumentException($"Missing ENV variable: {Constants.EnvironmentVariables.MessagesTableName}");
         }
         
-        if (string.IsNullOrEmpty(ConnectionsTableName))
+        if (!string.IsNullOrEmpty(ConnectionsTableName))
         {
             AWSConfigsDynamoDB.Context.TypeMappings[typeof(Connection)] =
                 new Amazon.Util.TypeMapping(typeof(Connection), ConnectionsTableName);
@@ -68,7 +68,7 @@ public class Function
     
     [Logging(LogEvent = true, Service = "websocketMessagingService")]
     [Metrics(CaptureColdStart = true, Namespace = "websocket-chat")]
-    //[Tracing(CaptureMode = TracingCaptureMode.ResponseAndError, Namespace = "websocket-chat")]
+    [Tracing(CaptureMode = TracingCaptureMode.ResponseAndError, Namespace = "websocket-chat")]
     public static async Task<APIGatewayProxyResponse> FunctionHandler(APIGatewayProxyRequest apigProxyEvent, ILambdaContext context)
     {
         Logger.LogInformation(new Dictionary<string, object>{{ "Lambda context", context }});

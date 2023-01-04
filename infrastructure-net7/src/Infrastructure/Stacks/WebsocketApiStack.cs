@@ -80,8 +80,8 @@ namespace Infrastructure.Stacks
             statusQueue.GrantSendMessages(onConnectHandler);
 
             var onDisconnectHandler = new CustomRuntimeFunction(this, "OnDisconnectHandler",
-                "./src/","./OnConnect/src/OnConnect", 
-                "bootstrap::OnConnect.Function::FunctionHandler", defaultLambdaEnvironment);
+                "./src/","./OnDisconnect/src/OnDisconnect", 
+                "bootstrap::OnDisconnect.Function::FunctionHandler", defaultLambdaEnvironment);
             props?.ConnectionsTable.GrantReadWriteData(onDisconnectHandler);
             statusQueue.GrantSendMessages(onDisconnectHandler);
             

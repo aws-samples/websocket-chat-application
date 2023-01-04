@@ -20,8 +20,6 @@ public class WebsocketBroadcaster
     }
 
     [Logging(LogEvent = true, Service = "websocketMessagingService")]
-    //[Metrics(Namespace = "websocket-chat")]
-    //[Tracing(CaptureMode = TracingCaptureMode.ResponseAndError, Namespace = "websocket-chat")]
     public async Task Broadcast(string payload, string apiGatewayEndpoint)
     {
         Logger.LogInformation("[Broadcaster] - Retrieving active connections...");
@@ -66,6 +64,8 @@ public class WebsocketBroadcaster
 
                     Logger.LogInformation($"Broadcast to connection: {item.connectionId}");
                     await apiClient.PostToConnectionAsync(postConnectionRequest);
+                    
+                    Metrics.AddMetric("messageDelivered", 1, MetricUnit.Count);
                 }
                 catch (AmazonServiceException e)
                 {
