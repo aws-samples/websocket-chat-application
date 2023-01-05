@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Amazon.CDK;
 using Amazon.CDK.AWS.CloudWatch;
 using Constructs;
@@ -13,7 +14,7 @@ namespace Infrastructure.Stacks
             var disconnectionsMetric = new Metric(new MetricProps()
             {
                 Namespace = "websocket-chat",
-                
+                DimensionsMap = new Dictionary<string, string>() {{"Service", "service_undefined"}},
                 MetricName = "closedConnection",
                 Statistic = "sum"
             });
@@ -21,6 +22,7 @@ namespace Infrastructure.Stacks
             var newConnectionsMetric = new Metric(new MetricProps()
             {
                 Namespace = "websocket-chat",
+                DimensionsMap = new Dictionary<string, string>() {{"Service", "service_undefined"}},
                 MetricName = "newConnection",
                 Statistic = "sum"
             });
@@ -28,6 +30,7 @@ namespace Infrastructure.Stacks
             var messagesDeliveredMetric = new Metric(new MetricProps()
             {
                 Namespace = "websocket-chat",
+                DimensionsMap = new Dictionary<string, string>() {{"Service", "service_undefined"}},
                 MetricName = "messageDelivered",
                 Statistic = "sum"
             });

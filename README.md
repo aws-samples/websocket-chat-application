@@ -16,10 +16,10 @@ This project lets you provision a ready-to-use fully serverless real-time chat a
 | :white_check_mark: | :white_check_mark: | Synchronous real-time messaging using [API Gateway Websocket API](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html)
 | :white_check_mark: | :white_check_mark: | Asynchronous user status updates using [Amazon SQS](https://aws.amazon.com/sqs/) and API Gateway Websocket API
 | :white_check_mark: | :white_check_mark: | Environment-agnostic Single Page Application frontend (dynamic environment configuration loading)
-| :white_check_mark: | :wrench: | Complete request tracing using [AWS X-Ray](https://aws.amazon.com/xray/)
-| :white_check_mark: | :wrench: | Lambda Powertools integration *(beta)*
+| :white_check_mark: | :white_check_mark: | Complete request tracing using [AWS X-Ray](https://aws.amazon.com/xray/)
+| :white_check_mark: | :white_check_mark: | Lambda Powertools integration *(beta)*
 | :white_check_mark: | :white_check_mark: | Structured logging and monitoring using [Amazon Cloudwatch](https://aws.amazon.com/cloudwatch/)
-| :white_check_mark: | :wrench: | Custom metrics & Cloudwatch dashboard
+| :white_check_mark: | :white_check_mark: | Custom metrics & Cloudwatch dashboard
 | :white_check_mark: | :x: | Built-in infrastructure security check using [CDK-NAG](https://github.com/cdklabs/cdk-nag)
 
 
