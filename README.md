@@ -1,5 +1,5 @@
 # Serverless chat application using ApiGateway Websockets
-This project lets you provision a ready-to-use fully serverless real-time chat application using Amazon ApiGateway Websockets. The infrastructure code is using the [AWS Cloud Development Kit(AWS CDK)](https://aws.amazon.com/cdk/) and implemented in both Typescript and NET7. The frontend is written using [Angular 12](https://angular.io/).
+This project lets you provision a ready-to-use fully serverless real-time chat application using Amazon ApiGateway Websockets. The infrastructure code is using the [AWS Cloud Development Kit(AWS CDK)](https://aws.amazon.com/cdk/) and implemented in both Typescript and NET7. The frontend is written using [Angular 15](https://angular.io/).
 
 ![](assets/chat_UI.png)
 
