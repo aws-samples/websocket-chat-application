@@ -2,3 +2,15 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mdc-list-item__end {
+    display: none!important;
+}
+
+.mat-line, .mdc-list-item__primary-text {
+    display: inline-flex;
+}
+
+.mat-line {
+    margin-left: 5px;
+}

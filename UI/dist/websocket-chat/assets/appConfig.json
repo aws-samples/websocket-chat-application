@@ -1,6 +1,6 @@
 {
     "production": false,
-    "api_url": "https://dqoapl8cag02b.cloudfront.net/api",
-    "broadcast_url": "wss://o6rpe3uu65.execute-api.eu-west-2.amazonaws.com/dev",
-    "login_url": "https://serverless-chat-users.auth.eu-west-2.amazoncognito.com/login?client_id=3vquj4gibge9v4ufjrp6m596io&response_type=token&redirect_uri=http://localhost:4200/callback"
+    "api_url": "https://d2w3nq3e6d57mq.cloudfront.net/api",
+    "broadcast_url": "wss://khvionq3vh.execute-api.eu-west-2.amazonaws.com/prod/",
+    "login_url": "https://serverless-chat-users.auth.eu-west-2.amazoncognito.com/login?client_id=4gnb5jhgl619b6ecd079t2suge&response_type=token&redirect_uri=http://localhost:4200/callback"
   }
