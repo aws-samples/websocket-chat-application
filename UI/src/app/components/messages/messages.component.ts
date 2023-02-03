@@ -3,9 +3,9 @@
 
 import { Component, OnInit, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Message } from '../../../../../infrastructure/resources/models/message';
+import { Message } from '../../../../../infrastructure-ts/resources/models/message';
 import { CommunicationService } from 'src/app/services/communication.service';
-import { Channel } from '../../../../../infrastructure/resources/models/channel';
+import { Channel } from '../../../../../infrastructure-ts/resources/models/channel';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserModel } from 'src/app/models/user';

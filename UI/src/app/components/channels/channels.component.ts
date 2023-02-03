@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
-import { Channel } from '../../../../../infrastructure/resources/models/channel';
+import { Channel } from '../../../../../infrastructure-ts/resources/models/channel';
 import { AddChannelComponent } from '../add-channel/add-channel.component';
 
 export interface Section {

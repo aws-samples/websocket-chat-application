@@ -7,8 +7,8 @@ import { Subscription } from 'rxjs';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
-import { User } from '../../../../../infrastructure/resources/models/user';
-import { Status } from '../../../../../infrastructure/resources/models/status';
+import { User } from '../../../../../infrastructure-ts/resources/models/user';
+import { Status } from '../../../../../infrastructure-ts/resources/models/status';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Pipe({ name: 'statusPipe' })

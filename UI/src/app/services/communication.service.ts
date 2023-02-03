@@ -7,7 +7,7 @@ import { Subscriber, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/states/app.state';
 import { changeWebsocketConnectionStateAction } from '../store/actions/app.actions';
-import { Payload } from '../../../../infrastructure/resources/models/payload';
+import { Payload } from '../../../../infrastructure-ts/resources/models/payload';
 import { AppConfigService } from './config.service';
 
 @Injectable({
