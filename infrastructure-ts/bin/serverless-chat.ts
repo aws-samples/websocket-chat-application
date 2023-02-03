@@ -66,7 +66,7 @@ const frontendStack = new FrontendStack(app, 'FrontendStack', {
   restApi: restApiStack.restApi,
   websocketApi: websocketApiStack.webSocketApi,
   cognitoUserPoolId: authStack.cognitoUserPoolId,
-  cognitoDomainPrefix: 'serverless-chat-users'
+  cognitoDomainPrefix: '' // Cognito domain prefix needs to be unique globally. Please fill in your domain prefix.
 });
 frontendStack.addDependency(restApiStack);
 

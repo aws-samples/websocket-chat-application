@@ -43,7 +43,7 @@ namespace Infrastructure
                 RestApi = restApiStack.RestApi,
                 WebsocketApi = websocketApiStack.WebSocketApi,
                 CognitoUserPoolId = authStack.CognitoUserPoolId,
-                CognitoDomainPrefix = "serverless-chat-users-net7"
+                CognitoDomainPrefix = "" // Cognito domain prefix needs to be unique globally. Please fill in your domain prefix.
             });
             frontendStack.AddDependency(restApiStack);
             

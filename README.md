@@ -49,6 +49,8 @@ Below you can find a list of security recommendations in case you would like to 
 ## Getting started
 ### Deployment
 
+:warning: WARNING :warning: The domain prefix for the Cognito Userpool needs to be *globally unique*. Before deployment, please make sure to configure your unique domain prefix at the FrontendStack declaration.
+
 For language specific instructions, please check the readme file in the related infrastructure directory.
 
 - [Typescript](./infrastructure-ts/README.md)
