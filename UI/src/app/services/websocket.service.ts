@@ -29,9 +29,6 @@ export class WebsocketService {
       this.ws.onerror = event => observer.error(event);
       this.ws.onclose = event => {
         console.debug("Websocket connection closed");
-        closeSubscriber.next();
-        closeSubscriber.complete();
-        observer.complete();
       };
 
       this.ws.onopen = event => {
