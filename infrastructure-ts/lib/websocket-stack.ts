@@ -78,7 +78,6 @@ export class WebsocketStack extends Stack {
     const nodeJsFunctionProps: NodejsFunctionProps = {
       bundling: {
         externalModules: [
-          'aws-sdk', // Use the 'aws-sdk' available in the Lambda runtime
         ],
         nodeModules: [
           '@aws-lambda-powertools/logger', 
@@ -97,7 +96,7 @@ export class WebsocketStack extends Stack {
         LOG_LEVEL: props?.logLevel!
       },
       handler: "handler",
-      runtime: Runtime.NODEJS_16_X,
+      runtime: Runtime.NODEJS_18_X,
       tracing: Tracing.ACTIVE
     }
 

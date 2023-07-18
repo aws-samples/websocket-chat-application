@@ -20,7 +20,7 @@ export class AuthenticationStack extends Stack {
     // !!! WARNING !!! - do NOT use it in production! 
     // Add neccessary security measures, like email and multi-factor authentication.
     const autoVerifyFunction = new Function(this, 'lambda-function', {
-      runtime: Runtime.NODEJS_16_X,
+      runtime: Runtime.NODEJS_18_X,
       memorySize: 128,
       timeout: Duration.seconds(10),
       handler: 'index.handler',

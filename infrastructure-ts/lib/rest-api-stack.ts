@@ -44,7 +44,6 @@ export class RestApiStack extends Stack {
     const sharedLambdaProps: NodejsFunctionProps = {
       bundling: {
         externalModules: [
-          'aws-sdk', // Use the 'aws-sdk' available in the Lambda runtime
         ],
         nodeModules: [
           '@aws-lambda-powertools/logger', 
@@ -61,7 +60,7 @@ export class RestApiStack extends Stack {
         WEBSOCKET_API_URL: `${props?.webSocketApi.apiEndpoint!}/wss`,
         LOG_LEVEL: props?.logLevel!
       },
-      runtime: Runtime.NODEJS_16_X,
+      runtime: Runtime.NODEJS_18_X,
     }
 
     // Create a Lambda function for each of the CRUD operations
