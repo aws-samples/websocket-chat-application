@@ -18,7 +18,7 @@ class Lambda implements LambdaInterface {
 
     let response: APIGatewayProxyResult = { statusCode: 200, body: "OK" };
     logger.addContext(context);
-    const channelId = event.pathParameters?.id;
+    const channelId = decodeURIComponent(event.pathParameters?.id!);
 
     var params = {
       TableName: MESSAGES_TABLE_NAME,
