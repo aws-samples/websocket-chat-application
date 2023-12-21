@@ -7,7 +7,7 @@ import { Table } from 'aws-cdk-lib/aws-dynamodb';
 import { AuthorizationType, CognitoUserPoolsAuthorizer, IResource, LambdaIntegration, MockIntegration, PassthroughBehavior, RestApi } from 'aws-cdk-lib/aws-apigateway';
 import { NodejsFunction, NodejsFunctionProps } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import { WebSocketApi } from '@aws-cdk/aws-apigatewayv2-alpha';
+import { WebSocketApi } from 'aws-cdk-lib/aws-apigatewayv2';
 import { Construct } from 'constructs';
 import { join } from 'path';
 import * as path from 'path';
@@ -60,7 +60,7 @@ export class RestApiStack extends Stack {
         WEBSOCKET_API_URL: `${props?.webSocketApi.apiEndpoint!}/wss`,
         LOG_LEVEL: props?.logLevel!
       },
-      runtime: Runtime.NODEJS_18_X,
+      runtime: Runtime.NODEJS_20_X,
     }
 
     // Create a Lambda function for each of the CRUD operations
