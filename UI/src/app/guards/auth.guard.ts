@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: MIT-0
 
 import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { HttpUrlEncodingCodec } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuardService implements CanActivate {
+export class AuthGuardService  {
   constructor(
     public authService: AuthService,
     public router: Router,
