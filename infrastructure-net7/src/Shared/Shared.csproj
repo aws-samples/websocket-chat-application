@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
@@ -11,14 +11,13 @@
         <PackageReference Include="Amazon.Lambda.RuntimeSupport" Version="1.8.2" />
         <PackageReference Include="Amazon.Lambda.Core" Version="2.1.0" />
         <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.3.0" />
-        <PackageReference Include="AWS.Lambda.Powertools.Logging" Version="0.0.1-preview.1" />
-        <PackageReference Include="AWS.Lambda.Powertools.Metrics" Version="0.0.1-preview.1" />
-        <PackageReference Include="AWS.Lambda.Powertools.Tracing" Version="0.0.1-preview.1" />
+        <PackageReference Include="Amazon.Lambda.SQSEvents" Version="2.2.0" />
+        <PackageReference Include="AWS.Lambda.Powertools.Logging" Version="1.4.4" />
+        <PackageReference Include="AWS.Lambda.Powertools.Metrics" Version="1.5.3" />
+        <PackageReference Include="AWS.Lambda.Powertools.Tracing" Version="1.3.2" />
         <PackageReference Include="AWSSDK.ApiGatewayManagementApi" Version="3.7.100.43" />
         <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.101.13" />
         <PackageReference Include="AWSSDK.SQS" Version="3.7.100.43" />
-        <PackageReference Include="AWSXRayRecorder.Core" Version="2.13.0" />
-        <PackageReference Include="AWSXRayRecorder.Handlers.AwsSdk" Version="2.11.0" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.1" />
     </ItemGroup>
 

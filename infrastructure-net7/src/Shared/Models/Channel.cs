@@ -13,5 +13,5 @@ public class Channel
         this.Participants = participants;
     }
     public string? id { get; set; }
-    public User[] Participants { get; set; } = null;
+    public User[] Participants { get; set; }
 }

@@ -61,7 +61,7 @@ namespace Infrastructure
                 // publish a standalone bootstrap executable - Trimming DISABLED
                 "dotnet publish -c Release --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true",
                 // copy bootstrap library to /asset-output for CDK 
-                $"cp -r /asset-input/{assetSourcePathTrimmed}/bin/Release/net7.0/linux-x64/publish/bootstrap /asset-output"
+                $"cp -r /asset-input/{assetSourcePathTrimmed}/bin/Release/net8.0/linux-x64/publish/bootstrap /asset-output"
             };
 
             return new FunctionProps

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using Amazon.CDK;
-using Amazon.CDK.AWS.Apigatewayv2.Alpha;
-using Amazon.CDK.AWS.Apigatewayv2.Authorizers.Alpha;
-using Amazon.CDK.AWS.Apigatewayv2.Integrations.Alpha;
+using Amazon.CDK.AWS.Apigatewayv2;
+using Amazon.CDK.AwsApigatewayv2Authorizers;
+using Amazon.CDK.AwsApigatewayv2Integrations;
 using Amazon.CDK.AWS.DynamoDB;
 using Amazon.CDK.AWS.IAM;
 using Amazon.CDK.AWS.Lambda.EventSources;
