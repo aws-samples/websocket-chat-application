@@ -54,14 +54,23 @@ namespace Infrastructure
                 "export HOME=\"/tmp\"",
                 "export DOTNET_CLI_HOME=\"/tmp/DOTNET_CLI_HOME\"",
                 "export PATH=\"$PATH:/tmp/DOTNET_CLI_HOME/.dotnet/tools\"",
+                $"NUGET_PACKAGES=\"/.nuget-cache\"",
                 // restore project dependencies
-                "dotnet restore", 
+                $"dotnet restore --packages /.nuget-cache --use-current-runtime", 
                 // publish a standalone bootstrap executable - Trimming ENABLED
                 //"dotnet publish -c Release --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:PublishTrimmed=True -p:TrimMode=link",
                 // publish a standalone bootstrap executable - Trimming DISABLED
-                "dotnet publish -c Release --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true",
+                "dotnet publish -c Release --no-restore --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true",
                 // copy bootstrap library to /asset-output for CDK 
                 $"cp -r /asset-input/{assetSourcePathTrimmed}/bin/Release/net8.0/linux-x64/publish/bootstrap /asset-output"
+            };
+
+            var dockerVolume = new DockerVolume {
+                ContainerPath = "/.nuget-cache",
+                HostPath = $"{mountPath}.nuget-cache",
+
+                // the properties below are optional
+                Consistency = DockerVolumeConsistency.CONSISTENT,
             };
 
             return new FunctionProps
@@ -102,7 +111,8 @@ namespace Infrastructure
                         Command = new[]
                         {
                             "bash", "-c", string.Join(" && ", defaultLambdaPackagingCommands)
-                        }
+                        },
+                        Volumes = new[] {dockerVolume}
                     }
                 }),
                 Environment = env,
