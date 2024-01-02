@@ -2,7 +2,7 @@
 
 ## Project structure
     
-    ├── infrastructure-net7                 # Infrastructure code via CDK (NET7).
+    ├── infrastructure-dotnet               # Infrastructure code via CDK (NET8).
     │   ├── src                             #
     |   |   ├── Infrastruture               # CDK App - Deploys the stacks 
     |   |   |   ├── Dockerfile              # Dockerfile containing the build container definition
