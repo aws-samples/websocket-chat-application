@@ -1,7 +1,7 @@
 deploy-ts:
 	cd infrastructure-ts; cdk deploy --all
 
-deploy-net7:
+deploy-dotnet:
 	cd infrastructure-dotnet; cdk deploy --all
 
 build-frontend:

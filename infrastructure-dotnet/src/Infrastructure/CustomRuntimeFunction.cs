@@ -7,7 +7,7 @@ using Constructs;
 namespace Infrastructure
 {
     /// <summary>
-    /// This class encapsulates the building and configuration of a .NET7 Lambda function using a custom runtime.
+    /// This class encapsulates the building and configuration of a dotnet Lambda function using a custom runtime.
     /// </summary>
     public class CustomRuntimeFunction : Function
     {
@@ -107,7 +107,7 @@ namespace Infrastructure
                         "README.md",},
                     Bundling = new BundlingOptions
                     {
-                        Image = DockerImage.FromBuild("./src/"), // Dockerfile in {repo-root}/infrastructure-net7/src/
+                        Image = DockerImage.FromBuild("./src/"), // Dockerfile in {repo-root}/infrastructure-dotnet/src/
                         Command = new[]
                         {
                             "bash", "-c", string.Join(" && ", defaultLambdaPackagingCommands)

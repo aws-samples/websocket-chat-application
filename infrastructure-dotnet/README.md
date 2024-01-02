@@ -1,4 +1,4 @@
-# NET7 infrastructure implementation
+# dotnet infrastructure implementation
 
 ## Project structure
     
@@ -8,7 +8,7 @@
     |   |   |   ├── Dockerfile              # Dockerfile containing the build container definition
     └─────── ...                            # Lambda handler implementations
 
-This project contains the C# version for both infrastructure and lambda handlers. While the CDK project uses dotnetcore3.1, the Lambda handlers are using and running in a NET7 environment. The Lambda build happens in a Docker container, and generates a single executable (bootstrap) that runs in a custom lambda runtime.
+This project contains the C# version for both infrastructure and lambda handlers. While the CDK project uses dotnetcore3.1, the Lambda handlers are using and running in a NET8 environment. The Lambda build happens in a Docker container, and generates a single executable (bootstrap) that runs in a custom lambda runtime.
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
