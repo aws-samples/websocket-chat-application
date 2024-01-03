@@ -1,12 +1,12 @@
 # Serverless chat application using ApiGateway Websockets
-This project lets you provision a ready-to-use fully serverless real-time chat application using Amazon ApiGateway Websockets. The infrastructure code is using the [AWS Cloud Development Kit(AWS CDK)](https://aws.amazon.com/cdk/) and implemented in both Typescript and NET7. The frontend is written using [Angular 15](https://angular.io/).
+This project lets you provision a ready-to-use fully serverless real-time chat application using Amazon ApiGateway Websockets. The infrastructure code is using the [AWS Cloud Development Kit(AWS CDK)](https://aws.amazon.com/cdk/) and implemented in both Typescript and NET8. The frontend is written using [Angular 17](https://angular.io/).
 
 ![](assets/chat_UI.png)
 
-:warning: WARNING :warning: The NET7 implementation is still work-in-progress, however it should work as-is and has the same security features implemented as the Typescript version. Below you can find a breakdown of feature implementation state.
+:warning: WARNING :warning: The NET8 implementation is still work-in-progress, however it should work as-is and has the same security features implemented as the Typescript version. Below you can find a breakdown of feature implementation state.
 
 ## Features
-| TS | NET7 | Feature description |
+| TS | NET8 | Feature description |
 | :---: | :---: | :--- |
 | :white_check_mark: | :white_check_mark: | "One-click" serverless deployment using [AWS CDK](https://aws.amazon.com/cdk/) | 
 | :white_check_mark: | :white_check_mark: | Infrastructure is split into 6 interdependent stacks (Authorization, Database, REST API, Websocket API, Frontend, Observability)
@@ -17,7 +17,7 @@ This project lets you provision a ready-to-use fully serverless real-time chat a
 | :white_check_mark: | :white_check_mark: | Asynchronous user status updates using [Amazon SQS](https://aws.amazon.com/sqs/) and API Gateway Websocket API
 | :white_check_mark: | :white_check_mark: | Environment-agnostic Single Page Application frontend (dynamic environment configuration loading)
 | :white_check_mark: | :white_check_mark: | Complete request tracing using [AWS X-Ray](https://aws.amazon.com/xray/)
-| :white_check_mark: | :white_check_mark: | Lambda Powertools integration *(beta)*
+| :white_check_mark: | :white_check_mark: | Lambda Powertools integration
 | :white_check_mark: | :white_check_mark: | Structured logging and monitoring using [Amazon Cloudwatch](https://aws.amazon.com/cloudwatch/)
 | :white_check_mark: | :white_check_mark: | Custom metrics & Cloudwatch dashboard
 | :white_check_mark: | :x: | Built-in infrastructure security check using [CDK-NAG](https://github.com/cdklabs/cdk-nag)
@@ -27,7 +27,7 @@ This project lets you provision a ready-to-use fully serverless real-time chat a
 ![](assets/websocket_chat.png)
 
 ## Project structure
-The infrastructure backend has been split into two directories (`infrastructure-ts`, `infrastructure-net`). These folders contain language-specific implementations for *both* the AWS CDK code and the lambda handlers. Please read the Readme file in the relevant directory for specific deployment instructions.
+The infrastructure backend has been split into two directories (`infrastructure-ts`, `infrastructure-dotnet`). These folders contain language-specific implementations for *both* the AWS CDK code and the lambda handlers. Please read the Readme file in the relevant directory for specific deployment instructions.
 
 ## Prerequisites
 
@@ -35,7 +35,7 @@ The infrastructure backend has been split into two directories (`infrastructure-
 - [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html) installed and configured with the aws account you want to use.
 - [docker](https://docs.docker.com/get-docker/) installed and is up and running locally (required for the lambda function builds).
 - [Angular CLI](https://angular.io/cli) installed.
-- [dotnetcore3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1) installed (for the NET7 infrastructure version)
+- [dotnet8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) installed (for the NET8 infrastructure version)
 
 ## Security considerations
 For the sake of this demo, **not all security features are enabled** to save cost and effort of setting up a working PoC. 
@@ -54,7 +54,7 @@ Below you can find a list of security recommendations in case you would like to 
 For language specific instructions, please check the readme file in the related infrastructure directory.
 
 - [Typescript](./infrastructure-ts/README.md)
-- [NET7](./infrastructure-net7/README.md)
+- [NET8](./infrastructure-dotnet/README.md)
 
 ### [Optional] - Building the frontend
 - Change directory to where UI code lives.
@@ -88,7 +88,7 @@ The backend outputs 3 custom metrics from the websocket API backend:
 * Closed Connections
 * Messages Delivered
 
-The **Observability Stack** ([TS](./infrastructure-ts/lib/observability-stack.ts) / [NET7](./infrastructure-net7/src/Infrastructure/Stacks/ObservabilityStack.cs)) creates a custom Cloudwatch Dashboard where these metrics are visualised.
+The **Observability Stack** ([TS](./infrastructure-ts/lib/observability-stack.ts) / [NET8](./infrastructure-dotnet/src/Infrastructure/Stacks/ObservabilityStack.cs)) creates a custom Cloudwatch Dashboard where these metrics are visualised.
 
 ![](assets/dashboard.png)
 

@@ -1,8 +1,8 @@
 deploy-ts:
-	cd infrastructure; cd typescript; cdk deploy --all
+	cd infrastructure-ts; cdk deploy --all
 
-deploy-net7:
-	cd infrastructure; cd net7; cdk deploy --all
+deploy-dotnet:
+	cd infrastructure-dotnet; cdk deploy --all
 
 build-frontend:
 	cd UI;ng build

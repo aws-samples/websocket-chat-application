@@ -73,10 +73,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "websocket-chat:build:production"
+              "buildTarget": "websocket-chat:build:production"
             },
             "development": {
-              "browserTarget": "websocket-chat:build:development"
+              "buildTarget": "websocket-chat:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +84,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "websocket-chat:build"
+            "buildTarget": "websocket-chat:build"
           }
         },
         "test": {
