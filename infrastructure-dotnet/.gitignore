@@ -340,5 +340,3 @@ ASALocalRun/
 
 
 # End of https://www.gitignore.io/api/csharp
-
-/src/.nuget-cache
